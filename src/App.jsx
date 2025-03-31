@@ -1,13 +1,13 @@
 import { useState } from 'react'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import { router } from './routes/Router';
 
-
-function App() {
-  const [count, setCount] = useState(0)
-
+export const App = () => {
   return (
-    <>
-      <h1>parent component</h1>
-    </>
+    <RouterProvider router={router} />
   )
 }
 

@@ -13,7 +13,11 @@ export const SellerProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axiosInstance.get("/seller/profile", {
+        const response = await axiosInstance.get("/seller/profile",{
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
           withCredentials: true,
         });
         setProfile(response.data.data);

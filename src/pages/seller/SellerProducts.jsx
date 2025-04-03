@@ -15,6 +15,10 @@ export const SellerProducts = () => {
   const fetchSellerProducts = async () => {
     try {
       const response = await axios.get("http://localhost:3003/api/products/seller", {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         withCredentials: true,
       });
       setProducts(response.data.data);

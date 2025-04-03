@@ -19,9 +19,16 @@ export const ProductCreate = () => {
             formData.append("category", data.category);
             formData.append("image", image); // Image file
 
-            const response = await axiosInstance.post("/products/create", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
+            const response = await axiosInstance.post("/products/create", formData,{
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                withCredentials: true,
+              });
+
+
+
 
             console.log("Product Created:", response.data);
             reset();

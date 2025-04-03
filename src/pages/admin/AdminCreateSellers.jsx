@@ -45,12 +45,24 @@ export const AdminCreateSellers = () => {
         data.append("Sellerimage", formData.profilePic);
       }
 
-      const response = await axiosInstance.post("seller/signup", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+      
+      axiosInstance.post("/api/seller/signup", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         withCredentials: true,
-      });
+      })
+        .then((res) => console.log("Seller Registered:", res.data))
+        .catch((err) => console.error("Registration Failed:", err.response));
+      
 
-      setMessage("Seller created successfully!");
+      // const response = await axiosInstance.post("seller/signup", data, {
+      //   headers: { "Content-Type": "multipart/form-data" },
+      //   withCredentials: true,
+      // });
+
+      // setMessage("Seller created successfully!");
       setTimeout(() => navigate("/admin/sellers"), 2000); // Redirect after success
     } catch (err) {
       setError(err.response?.data?.message || "Error creating seller");

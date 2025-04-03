@@ -7,7 +7,14 @@ export const AdminViewOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axiosInstance.get("/admin/orders");
+        
+        const response = await axiosInstance.get("/admin/orders", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        });
+        
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders", error);

@@ -6,7 +6,15 @@ export const AdminViewUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axiosInstance.get("/admin/users");
+        
+        const response = await axiosInstance.get("/admin/users", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        });
+        
+
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users", error);

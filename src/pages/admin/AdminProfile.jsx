@@ -6,7 +6,14 @@ export const AdminProfile = () => {
   useEffect(() => {
     const fetchAdminProfile = async () => {
       try {
-        const response = await axiosInstance.get("/admin/profile");
+        
+        const response = await axiosInstance.get("/admin/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        });
+        
         setAdmin(response.data.data);
       } catch (error) {
         console.error("Error fetching admin profile", error);

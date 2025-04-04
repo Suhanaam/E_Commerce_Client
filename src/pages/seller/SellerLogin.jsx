@@ -14,7 +14,12 @@ export const SellerLogin = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axiosInstance.post("/seller/login", data);
+            
+              
+             const response = await axiosInstance.post("/seller/login", data);
+            console.log("login response:",response?.data?.data);
+            localStorage.setItem("token", response.data.token);
+
             dispatch(saveUser(response?.data?.data));
             toast.success("Login success");
             navigate("/seller/dashboard");

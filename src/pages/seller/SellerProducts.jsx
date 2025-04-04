@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { axiosInstance } from "../../config/axiosInstance"; 
 
 export const SellerProducts = () => {
   const [products, setProducts] = useState([]);

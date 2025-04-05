@@ -5,7 +5,7 @@ import { Skeltons } from "../../components/user/Skeltons";
 
 import { ProductCard2 } from "../../components/user/ProductCard2";
 
-export const ProductList2 = () => {
+export const ProductList = () => {
     const params = useParams();
     const [product, isLoading, error] = useFetch(`/products/${params.id}`);
 
@@ -19,8 +19,8 @@ export const ProductList2 = () => {
 
     return (
         <div>
-          <h1>Product Details</h1>
-          {product?.data ? <ProductCard2 product={product.data} /> : <p>No product found</p>}
+            <h1>Product Details</h1>
+            {product ? <ProductCard2 product={product} /> : <p>No product found</p>}
         </div>
-      );
+    );
 };

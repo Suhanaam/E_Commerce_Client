@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 export const ProductCard2 = ({ product }) => {
   const navigate = useNavigate(); // ✅ Correct way to use Navigate

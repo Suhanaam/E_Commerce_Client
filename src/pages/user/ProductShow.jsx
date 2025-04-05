@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
-import { ProductCard } from "../../components/user/ProductCard";
+
 import { Skeltons } from "../../components/user/Skeltons";
+import { ProductCard2 } from "../../components/user/ProductCard2";
 
 export const ProductShow = () => {
  const [Products, SetProducts] = useState([]);
@@ -38,7 +39,7 @@ export const ProductShow = () => {
          <p>No products found</p>
        ) : (
          Products.map((value) => (
-           <ProductCard product={value} key={value?._id} />
+           <ProductCard2 product={value} key={value?._id} />
          ))
        )}
      </div>

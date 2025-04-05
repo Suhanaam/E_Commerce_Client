@@ -4,10 +4,23 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { router } from './routes/Router';
+import { useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
 export const App = () => {
-  return (
-    <RouterProvider router={router} />
+
+  const theme = useSelector((state) => state.theme.theme);
+
+  useEffect(() => {
+    // Apply the selected theme to the root html tag
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+  return (<>
+  
+  <RouterProvider router={router} />
+  <Toaster />
+  </>
+    
   )
 }
 

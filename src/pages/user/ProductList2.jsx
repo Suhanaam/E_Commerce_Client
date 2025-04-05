@@ -21,7 +21,7 @@ export const ProductList2 = () => {
         <div>
             <h1>Product Details</h1>
             {/* {product ? <ProductCard2 product={product} /> : <p>No product found</p>} */}
-            {product ? <ProductCard product={product.data} /> : <p>No product found</p>}
+            {product ? <ProductCard2 product={product.data} /> : <p>No product found</p>}
         </div>
     );
 };

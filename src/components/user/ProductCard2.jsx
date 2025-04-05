@@ -21,12 +21,13 @@ export const ProductCard2 = ({ product }) => {
         <p><strong>Price:</strong> ${product.price || "N/A"}</p>
         <p><strong>ID:</strong> {product?._id || "N/A"}</p>
         <div className="card-actions justify-end">
-          <button
+          {/* <button
             className="btn btn-primary"
             onClick={() => navigate(`/productList2/${product?._id}`)} // ✅ Correct way
           >
             Read more
-          </button>
+          </button> */}
+          <Link to={`/user/productList2/${product._id}`}>View Details</Link>
         </div>
       </div>
     </div>

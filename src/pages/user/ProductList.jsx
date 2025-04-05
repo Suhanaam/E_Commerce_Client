@@ -19,7 +19,8 @@ export const ProductList = () => {
     return (
         <div>
             <h1>Product Details</h1>
-            {product ? <ProductCard product={product} /> : <p>No product found</p>}
+            {product ? <ProductCard product={product.data} /> : <p>No product found</p>}
+        {/* {product ? <ProductCard product={product} /> : <p>No product found</p>} */}
         </div>
     );
 };

@@ -5,7 +5,7 @@ import { Skeltons } from "../../components/user/Skeltons";
 import { ProductCard2 } from "../../components/user/ProductCard2";
 
 export const ProductShow = () => {
- const [Products, SetProducts] = useState([]);
+ const [Products, setProducts] = useState([]);
    const [isLoading,setIsLoading]=useState(true);
    const [error,setError]=useState(null);
  
@@ -14,7 +14,7 @@ export const ProductShow = () => {
        const response = await axiosInstance({ method :"GET",url:"/products/all"});
        console.log("API Response Data:", response?.data);
        setTimeout(()=>{
-         SetProducts(response?.data?.data || []); // Ensure it's an array
+         setProducts(response?.data?.data || []); // Ensure it's an array
          setIsLoading(false);
  
        },300);

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export const ProductCard2 = ({ product }) => {
   const navigate = useNavigate(); // ✅ Correct way to use Navigate
+  const BASE_URL = "https://e-commerce-server-rayan.onrender.com";
 
   if (!product) return null; // Ensure product exists before rendering
 
@@ -10,7 +11,7 @@ export const ProductCard2 = ({ product }) => {
     <div className="card bg-base-100 w-96 shadow-sm">
       <figure>
         <img
-          src={product.images || "https://via.placeholder.com/150"}
+          src={`${BASE_URL}/${product.images}` || "https://via.placeholder.com/150"}
           alt={product.name || "Product Image"}
         />
       </figure>

@@ -2,7 +2,8 @@ import React from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { Skeltons } from "../../components/user/Skeltons";
-import { ProductCard } from "../../components/user/ProductCard";
+
+import { ProductCard2 } from "../../components/user/ProductCard2";
 
 export const ProductList2 = () => {
     const params = useParams();
@@ -19,7 +20,8 @@ export const ProductList2 = () => {
     return (
         <div>
             <h1>Product Details</h1>
-            {product ? <ProductCard product={product} /> : <p>No product found</p>}
+            {/* {product ? <ProductCard2 product={product} /> : <p>No product found</p>} */}
+            {product ? <ProductCard product={product.data} /> : <p>No product found</p>}
         </div>
     );
 };

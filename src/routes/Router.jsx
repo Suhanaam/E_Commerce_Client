@@ -74,7 +74,7 @@ export const router = createBrowserRouter([
       { path: "payment", element: <Contact /> },
       { path: "wishlist", element: <UserWishlist /> },
       { path: "allproducts", element: <ProductShow /> },
-      { path: "/productList2/:id", element: <ProductList2 /> }
+      { path: "productList2/:id", element: <ProductList2 /> }
       
 
       ]

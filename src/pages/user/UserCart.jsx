@@ -26,6 +26,19 @@ export const UserCart = () => {
     }
   }, [userData]);
 
+  // ✅ Delete Item
+  const handleDelete = async (itemId) => {
+    try {
+      await axiosInstance.delete(`/cart/remove/${itemId}`, {
+        withCredentials: true,
+      });
+      fetchCart(); // Refresh cart
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+
+
   if (!cartData || cartData.items.length === 0) {
     return <p className="p-4 text-gray-500">Your cart is empty.</p>;
   }
@@ -53,12 +66,24 @@ export const UserCart = () => {
             <p className="font-bold text-green-700">
               Subtotal: ₹{item.price * item.quantity}
             </p>
+            <button
+              onClick={() => handleDelete(item._id)}
+              className="mt-2 bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
+            >
+              Remove
+            </button>
           </div>
         ))}
       </div>
 
       <div className="mt-6 text-xl font-semibold">
         Total Price: ₹{cartData.totalPrice}
+        <button
+          onClick={handleCheckout}
+          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        >
+          Checkout
+        </button>
       </div>
     </div>
   );

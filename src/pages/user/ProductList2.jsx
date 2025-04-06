@@ -7,9 +7,9 @@ import { Skeltons } from "../../components/user/Skeltons";
 
 export const ProductList2 = () => {
     const params = useParams();
-    // console.log("hiii");
+    console.log("hiii");
     const [productDetails, isLoading, error] = useFetch(`/products/${params?.id}`);
-    // console.log("Fetched product data:", productDetails);
+    console.log("Fetched product data:", productDetails);
 
 
     const handleAddToCart = async () => {

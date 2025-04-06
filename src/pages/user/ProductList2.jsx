@@ -23,9 +23,9 @@ export const ProductList2 = () => {
                 method: "POST",
                 url: "/cart/add",
                 data: {
-                    product: productDetails?._id,
+                    product: productDetails?.data?._id,
                     quantity: 1,
-                    price: productDetails?.price,
+                    price: productDetails?.data?.price,
                 },
                 withCredentials: true, // ✅ Make sure cookies (for auth) are sent
             });
@@ -49,15 +49,15 @@ export const ProductList2 = () => {
                 <div className="card w-96 bg-base-100 shadow-md">
                     <figure>
                     <img
-  src={productDetails?.images?.[0] || "https://via.placeholder.com/150"}
-  alt={productDetails?.name}
-/>
+                     src={productDetails?.data?.images?.[0] || "https://via.placeholder.com/150"}
+                     alt={productDetails?.data?.name}
+                    />
 
                     </figure>
                     <div className="card-body">
-                        <h2 className="card-title">{productDetails?.name}</h2>
-                        <p>{productDetails?.description}</p>
-                        <p><strong>Price:</strong> ${productDetails?.price}</p>
+                    <h2 className="card-title">{productDetails?.data?.name}</h2>
+                      <p>{productDetails?.data?.description}</p>
+                      <p><strong>Price:</strong> ${productDetails?.data?.price}</p>
 
                         <button className="btn btn-primary mt-4" onClick={handleAddToCart}>
                             Add to Cart

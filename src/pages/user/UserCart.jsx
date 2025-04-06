@@ -5,21 +5,23 @@ import { useSelector } from "react-redux";
 export const UserCart = () => {
   const [cartData, setCartData] = useState([]); // Ensure it's always an array
   const { userData } = useSelector((state) => state.user);
+  console.log("cart user:",userData)
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const response = await axiosInstance.get(`/cart/${userData?._id}`);
-        setCartData(response.data.items || []); // Default to empty array
+        setCartData(response.data.cart?.items || []);
       } catch (error) {
         console.error("Error fetching cart:", error);
       }
     };
-
+  
     if (userData?._id) {
       fetchCart();
     }
   }, [userData]);
+  
 
   if (!cartData.length) {
     return <p>Your cart is empty.</p>;

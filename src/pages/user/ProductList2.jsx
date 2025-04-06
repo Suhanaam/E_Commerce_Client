@@ -48,6 +48,30 @@ export const ProductList2 = () => {
         }
     };
 
+    const handleAddToWishlist = async () => {
+        if (!productDetails?._id) {
+            toast.error("Product not found");
+            return;
+        }
+    
+        try {
+            const response = await axiosInstance({
+                method: "POST",
+                url: "/wishlist/add",
+                data: {
+                    product: productDetails._id,
+                },
+                withCredentials: true,
+            });
+    
+            console.log("Add to wishlist response:", response);
+            toast.success("Product added to wishlist!");
+        } catch (error) {
+            console.error("Error adding to wishlist:", error);
+            toast.error(error?.response?.data?.message || "Unable to add product to wishlist");
+        }
+    };
+
     if (isLoading) return <Skeltons />;
     if (error) return <p>Error loading product</p>;
     
@@ -73,7 +97,7 @@ export const ProductList2 = () => {
                         <button className="btn btn-primary mt-4" onClick={handleAddToCart}>
                             Add to Cart
                         </button>
-                        <button className="btn btn-primary mt-4" onClick="">
+                        <button className="btn btn-primary mt-4" onClick={handleAddToWishlist}>
                             Add to wishlist
                         </button>
                         <button className="btn btn-primary mt-4" onClick="">

@@ -8,6 +8,7 @@ export const useFetch = (url) => {
     const [error, setError] = useState(null);
 
     // api call function
+    
     const fetchData = async () => {
         try {
             const response = await axiosInstance({ method: "GET", url: url ,withCredentials:"true"});

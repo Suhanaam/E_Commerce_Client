@@ -43,15 +43,16 @@ export const ProductList2 = () => {
 
     return (
         <div className="container mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-4">Product Details</h1>
+            <h1 className="text-2xl font-bold mb-4">Product Details are here </h1>
 
             {productDetails?.data ? (
                 <div className="card w-96 bg-base-100 shadow-md">
                     <figure>
-                        <img
-                            src={`https://e-commerce-server-rayan.onrender.com/${productDetails.data.images}`}
-                            alt={productDetails.data.name}
-                        />
+                    <img
+  src={productDetails.data.images?.[0] || "https://via.placeholder.com/150"}
+  alt={productDetails.data.name}
+/>
+
                     </figure>
                     <div className="card-body">
                         <h2 className="card-title">{productDetails.data.name}</h2>

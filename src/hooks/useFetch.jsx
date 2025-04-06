@@ -9,7 +9,7 @@ export const useFetch = (url) => {
       //api call function
       const fetchData=async()=>{
         try {
-         const response = await axiosInstance({ method :"GET",url:url,data: payload,
+         const response = await axiosInstance({ method :"GET",url:url,
           withCredentials: true});
          setData(response?.data?.data);
          setIsLoading(false);                    

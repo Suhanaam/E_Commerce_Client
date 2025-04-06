@@ -47,13 +47,13 @@ export const ProductList2 = () => {
             <h1>kikiki</h1>
             
                 <div className="card w-96 bg-base-100 shadow-md">
-                    <figure>
+                    {/* <figure>
                     <img
   src={productDetails.data.images?.[0] || "https://via.placeholder.com/150"}
   alt={productDetails.data.name}
 />
 
-                    </figure>
+                    </figure> */}
                     <div className="card-body">
                         <h2 className="card-title">{productDetails.data.name}</h2>
                         <p>{productDetails.data.description}</p>

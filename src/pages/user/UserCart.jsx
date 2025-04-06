@@ -10,7 +10,12 @@ export const UserCart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await axiosInstance.get(`/cart/${userData?._id}`);
+        const response = await axiosInstance.get("/cart", {
+          withCredentials: true, // 🔐 Needed for cookie-based auth
+        });
+
+        console.log("cart user:", response.data);
+    
         setCartData(response.data.cart?.items || []);
       } catch (error) {
         console.error("Error fetching cart:", error);

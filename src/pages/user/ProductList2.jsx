@@ -13,7 +13,7 @@ export const ProductList2 = () => {
 
 
     const handleAddToCart = async () => {
-        console.log("Product passed to cart:", productDetails?.data);
+        console.log("Product passed to cart:", productDetails);
         console.log("Product ID:", productDetails?._id);
         console.log("Add to cart payload:", {
             product: productDetails._id,
@@ -23,7 +23,7 @@ export const ProductList2 = () => {
           
 
 
-        if (!productDetails?.data) {
+        if (!productDetails) {
             toast.error("Product not found");
             return;
         }

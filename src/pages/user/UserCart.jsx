@@ -32,6 +32,7 @@ export const UserCart = () => {
 
   return (
     <div className="p-4">
+      <h1>here is your items</h1>
       <h2 className="text-2xl font-bold mb-4">My Cart</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -48,6 +49,7 @@ export const UserCart = () => {
             <h3 className="text-lg font-semibold">{item.product.name}</h3>
             <p>Quantity: {item.quantity}</p>
             <p>Price per unit: ₹{item.price}</p>
+            <p>last total</p>
             <p className="font-bold text-green-700">
               Subtotal: ₹{item.price * item.quantity}
             </p>

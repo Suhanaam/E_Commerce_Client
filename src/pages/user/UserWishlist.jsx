@@ -10,7 +10,7 @@ export const UserWishlist = () => {
       try {
         const response = await axiosInstance.get("/wishlist/");
         console.log("Fetched wishlist", response.data);
-
+        console.log("Fetched wishlist", response.data?.products);
         // Check if 'products' is returned properly
         if (response.data?.products) {
           setWishlistProducts(response.data.products);

@@ -14,11 +14,11 @@ export const ProductList2 = () => {
 
     const handleAddToCart = async () => {
         console.log("Product passed to cart:", productDetails?.data);
-        console.log("Product ID:", productDetails?.data?._id);
+        console.log("Product ID:", productDetails?._id);
         console.log("Add to cart payload:", {
-            product: productDetails?.data?._id,
+            product: productDetails._id,
             quantity: 1,
-            price: productDetails?.data?.price
+            price: productDetails?.price
           });
           
 
@@ -33,9 +33,9 @@ export const ProductList2 = () => {
                 method: "POST",
                 url: "/cart/add",
                 data: {
-                    product: productDetails?.data?._id,
+                    product: productDetails?._id,
                     quantity: 1,
-                    price: productDetails?.data?.price,
+                    price: productDetails?.price,
                 },
                 withCredentials: true, // ✅ Make sure cookies (for auth) are sent
             });
@@ -60,15 +60,15 @@ export const ProductList2 = () => {
                 <div className="card w-96 bg-base-100 shadow-md">
                     <figure>
                     <img
-                     src={productDetails?.data?.images?.[0] }
-                     alt={productDetails?.data?.name}
+                     src={productDetails?.images?.[0] }
+                     alt={productDetails?.name}
                     />
 
                     </figure>
                     <div className="card-body">
-                    <h2 className="card-title">{productDetails?.data?.name}</h2>
-                      <p>{productDetails?.data?.description}</p>
-                      <p><strong>Price:</strong> ${productDetails?.data?.price}</p>
+                    <h2 className="card-title">{productDetails?.name}</h2>
+                      <p>{productDetails?.description}</p>
+                      <p><strong>Price:</strong> ${productDetails?.price}</p>
 
                         <button className="btn btn-primary mt-4" onClick={handleAddToCart}>
                             Add to Cart

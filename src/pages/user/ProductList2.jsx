@@ -44,8 +44,8 @@ export const ProductList2 = () => {
     return (
         <div className="container mx-auto px-4">
             <h1 className="text-2xl font-bold mb-4">Product Details are here </h1>
-
-            {productDetails?.data ? (
+            <h1>kikiki</h1>
+            
                 <div className="card w-96 bg-base-100 shadow-md">
                     <figure>
                     <img
@@ -64,9 +64,7 @@ export const ProductList2 = () => {
                         </button>
                     </div>
                 </div>
-            ) : (
-                <p>No product found</p>
-            )}
+        <h1>kikiki</h1>
         </div>
     );
 };

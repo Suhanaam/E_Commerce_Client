@@ -50,9 +50,7 @@ export const ProductList2 = () => {
 
     if (isLoading) return <Skeltons />;
     if (error) return <p>Error loading product</p>;
-    const imageUrl = productDetails?.data?.images?.[0]
-    ? productDetails.data.images[0].replace("http://", "https://")
-    : "https://picsum.photos/200";
+    
 
     return (
         <div className="container mx-auto px-4">
@@ -62,8 +60,7 @@ export const ProductList2 = () => {
                 <div className="card w-96 bg-base-100 shadow-md">
                     <figure>
                     <img
-                    //  src={productDetails?.data?.images?.[0] || "https://via.placeholder.com/150"}
-                    src={imageUrl}
+                     src={productDetails?.data?.images?.[0] || "https://via.placeholder.com/150"}
                      alt={productDetails?.data?.name}
                     />
 

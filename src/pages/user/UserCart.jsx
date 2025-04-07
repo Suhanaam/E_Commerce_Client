@@ -37,6 +37,11 @@ export const UserCart = () => {
       console.error("Error removing item:", error);
     }
   };
+  const handleCheckout = async() => {
+    alert("Proceeding to checkout...");
+    // Navigate to a new page, or show a modal (you can customize)
+  };
+
 
 
   if (!cartData || cartData.items.length === 0) {

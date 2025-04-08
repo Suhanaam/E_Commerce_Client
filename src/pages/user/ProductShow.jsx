@@ -36,16 +36,17 @@ export const ProductShow = () => {
      <div>
        <h1>Product List</h1>
        
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
        {Products.length === 0 ? (
          <p>No products found</p>
        ) : (
          Products.map((value) => (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
            <ProductCard2 product={value} key={value?._id} />
-           </div>
+          
          ))
        )}
-       
+        </div>
      </div>
    );
  };

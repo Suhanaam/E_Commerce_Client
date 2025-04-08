@@ -46,6 +46,7 @@ export const SellerProducts = () => {
               <th className="border px-4 py-2">Price</th>
               <th className="border px-4 py-2">Stock</th>
               <th className="border px-4 py-2">Image</th>
+              <th className="border px-4 py-2">....</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +59,10 @@ export const SellerProducts = () => {
                 <td className="border px-4 py-2">{product.stock}</td>
                 <td className="border px-4 py-2">
                   <img src={product.images[0]} alt={product.name} className="w-16 h-16 object-cover" />
+                </td>
+                <td className="border px-4 py-2">
+                  <button>remove</button>
+                  
                 </td>
               </tr>
             ))}

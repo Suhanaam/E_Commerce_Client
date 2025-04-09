@@ -38,6 +38,7 @@ import { UserCart } from "../pages/user/UserCart";
 import { UserWishlist } from "../pages/user/UserWishlist";
 import { ProductShow } from "../pages/user/ProductShow";
 import { ProductList2 } from "../pages/user/ProductList2";
+import { UserCheckout } from "../pages/user/UserCheckout";
 
 export const router = createBrowserRouter([
   {
@@ -74,7 +75,8 @@ export const router = createBrowserRouter([
       { path: "payment", element: <Contact /> },
       { path: "wishlist", element: <UserWishlist /> },
       { path: "allproducts", element: <ProductShow /> },
-      { path: "productList2/:id", element: <ProductList2 /> }
+      { path: "productList2/:id", element: <ProductList2 /> },
+      { path: "checkout", element: <UserCheckout /> }
       
 
       ]

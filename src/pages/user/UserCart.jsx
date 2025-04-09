@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // 🆕
 
 export const UserCart = () => {
   const [cartData, setCartData] = useState(null); 
   const { userData } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   // ✅ New state to track selected items
   const [selectedItems, setSelectedItems] = useState([]);
@@ -55,13 +57,18 @@ export const UserCart = () => {
       alert("Please select at least one item to checkout.");
       return;
     }
+  
     const selectedDetails = cartData.items.filter((item) =>
       selectedItems.includes(item._id)
     );
-    console.log("Selected Items for checkout:", selectedDetails);
-    alert(`Proceeding to checkout with ${selectedItems.length} items.`);
-    // Send selectedDetails to server or navigate to payment page
+  
+    navigate("/checkout", {
+      state: {
+        items: selectedDetails,
+      },
+    });
   };
+  
 
   if (!cartData || cartData.items.length === 0) {
     return <p className="p-4 text-gray-500">Your cart is empty.</p>;

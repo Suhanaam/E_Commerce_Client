@@ -29,6 +29,7 @@ export const UserCart = () => {
   // Delete Item – use the product ID (item.product) from the cart item
   const handleDelete = async (productId) => {
     try {
+      console.log(productId);
       await axiosInstance.delete(`/cart/remove/${productId}`, {
         withCredentials: true,
       });

@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"; // 🆕
 
 export const UserCart = () => {
   const [cartData, setCartData] = useState(null); 
   const { userData } = useSelector((state) => state.user);
-  const navigate = useNavigate();
 
-  // ✅ New state to track selected items
-  const [selectedItems, setSelectedItems] = useState([]);
-
+  // ✅ Define fetchCart globally inside component
   const fetchCart = async () => {
     try {
       const response = await axiosInstance.get("/cart", {
         withCredentials: true,
       });
+      console.log("Fetched Cart:", response.data);
       setCartData(response.data.cart);
     } catch (error) {
       console.error("Error fetching cart:", error);
@@ -29,46 +26,21 @@ export const UserCart = () => {
     }
   }, [userData]);
 
+  // ✅ Delete Item
   const handleDelete = async (itemId) => {
     try {
       await axiosInstance.delete(`/cart/remove/${itemId}`, {
         withCredentials: true,
       });
-      await fetchCart();
-      // Remove from selectedItems too if selected
-      setSelectedItems((prev) => prev.filter((id) => id !== itemId));
+      await fetchCart(); // ✅ This works now
     } catch (error) {
       console.error("Error removing item:", error);
     }
   };
 
-  // ✅ Toggle selection
-  const toggleSelect = (itemId) => {
-    setSelectedItems((prev) =>
-      prev.includes(itemId)
-        ? prev.filter((id) => id !== itemId)
-        : [...prev, itemId]
-    );
-  };
-
-  // ✅ Checkout only selected items
   const handleCheckout = () => {
-    if (selectedItems.length === 0) {
-      alert("Please select at least one item to checkout.");
-      return;
-    }
-  
-    const selectedDetails = cartData.items.filter((item) =>
-      selectedItems.includes(item._id)
-    );
-  
-    navigate("/checkout", {
-      state: {
-        items: selectedDetails,
-      },
-    });
+    alert("Proceeding to checkout...");
   };
-  
 
   if (!cartData || cartData.items.length === 0) {
     return <p className="p-4 text-gray-500">Your cart is empty.</p>;
@@ -76,6 +48,7 @@ export const UserCart = () => {
 
   return (
     <div className="p-4">
+      <h1>here is your items</h1>
       <h2 className="text-2xl font-bold mb-4">My Cart</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -84,12 +57,6 @@ export const UserCart = () => {
             key={item._id}
             className="border p-4 rounded shadow hover:shadow-md"
           >
-            <input
-              type="checkbox"
-              checked={selectedItems.includes(item._id)}
-              onChange={() => toggleSelect(item._id)}
-              className="mb-2"
-            />
             <img
               src={item.product.images?.[0]}
               alt={item.product.name}
@@ -112,12 +79,12 @@ export const UserCart = () => {
       </div>
 
       <div className="mt-6 text-xl font-semibold">
-        <p className="mb-2">Total Price: ₹{cartData.totalPrice}</p>
+        Total Price: ₹{cartData.totalPrice}
         <button
           onClick={handleCheckout}
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          className="ml-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
-          Checkout Selected ({selectedItems.length})
+          Checkout
         </button>
       </div>
     </div>

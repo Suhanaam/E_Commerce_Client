@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 import { useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const UserCart = () => {
   const [cartData, setCartData] = useState(null);
@@ -39,10 +40,24 @@ export const UserCart = () => {
     }
   };
 
-  const handleCheckout = () => {
-    alert("Proceeding to checkout...");
-    // Add your checkout functionality here, e.g., navigating to the checkout page
-  };
+  const makePayment = async () => {
+    try {
+        const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+
+        const session = await axiosInstance({
+            url: "/payment/create-checkout-session",
+            method: "POST",
+            data: { products: cartData?.items },
+        });
+
+        console.log(session, "=======session");
+        const result = stripe.redirectToCheckout({
+            sessionId: session.data.sessionId,
+        });
+     } catch (error) {
+         console.log(error);
+     }
+};
 
   if (!cartData || cartData.items.length === 0) {
     return <p className="p-4 text-gray-500">Your cart is empty.</p>;
@@ -72,7 +87,7 @@ export const UserCart = () => {
               Subtotal: ₹{item.price * item.quantity}
             </p>
             <button
-              onClick={() => handleDelete(item.product)} // Pass product ID
+              onClick={() => handleDelete(item.product._id)} // Pass product ID
               className="mt-2 bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
             >
               Remove
@@ -83,7 +98,7 @@ export const UserCart = () => {
       <div className="mt-6 text-xl font-semibold">
         <p>Total Price: ₹{cartData.totalPrice}</p>
         <button
-          onClick={handleCheckout}
+          onClick={makePayment}
           className="ml-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
           Checkout

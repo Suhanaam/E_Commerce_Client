@@ -5,8 +5,13 @@ import { loadStripe } from "@stripe/stripe-js";
 
 export const UserCart = () => {
   const [cartData, setCartData] = useState(null);
-  const [address, setAddress] = useState("");
   const { userData } = useSelector((state) => state.user);
+  const [address, setAddress] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    pincode: "",
+  });
 
   const fetchCart = async () => {
     try {
@@ -37,28 +42,36 @@ export const UserCart = () => {
     }
   };
 
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isAddressValid = () => {
+    return (
+      address.name.trim() &&
+      address.address.trim() &&
+      address.phone.trim() &&
+      address.pincode.trim()
+    );
+  };
+
   const makePayment = async () => {
-    if (!address.trim()) {
-      alert("Please enter your delivery address before proceeding.");
+    if (!isAddressValid()) {
+      alert("Please fill all address fields before checkout.");
       return;
     }
 
     try {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
-      const session = await axiosInstance.post(
-        "/payment/create-checkout-session",
-        {
-          products: cartData?.items,
-          address: address.trim(),
-        },
-        { withCredentials: true }
-      );
+      const session = await axiosInstance.post("/payment/create-checkout-session", {
+        products: cartData?.items,
+        address,
+      }, { withCredentials: true });
 
-      const result = stripe.redirectToCheckout({
-        sessionId: session.data.sessionId,
-      });
+      await stripe.redirectToCheckout({ sessionId: session.data.sessionId });
     } catch (error) {
-      console.log("Payment error:", error);
+      console.error("Payment error:", error);
     }
   };
 
@@ -67,15 +80,13 @@ export const UserCart = () => {
   }
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">My Cart</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cartData.items.map((item) => (
-          <div key={item._id} className="border p-4 rounded shadow">
+          <div key={item._id} className="border p-4 rounded shadow hover:shadow-md">
             <img
-              src={
-                item.product.images?.[0] || "https://picsum.photos/200"
-              }
+              src={item.product.images?.[0] || "https://picsum.photos/200"}
               alt={item.product.name}
               className="w-full h-40 object-cover rounded mb-2"
             />
@@ -95,27 +106,56 @@ export const UserCart = () => {
         ))}
       </div>
 
-      {/* Address Input Section */}
-      <div className="mt-8">
+      <div className="mt-8 max-w-xl mx-auto">
         <h3 className="text-xl font-semibold mb-2">Delivery Address</h3>
-        <textarea
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder="Enter your full delivery address"
-          className="w-full p-3 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-          rows={4}
-        ></textarea>
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={address.name}
+            onChange={handleAddressChange}
+            className="border p-2 rounded"
+            required
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            value={address.phone}
+            onChange={handleAddressChange}
+            className="border p-2 rounded"
+            required
+          />
+          <input
+            type="text"
+            name="address"
+            placeholder="Street Address + City"
+            value={address.address}
+            onChange={handleAddressChange}
+            className="border p-2 rounded"
+            required
+          />
+          <input
+            type="text"
+            name="pincode"
+            placeholder="Pincode"
+            value={address.pincode}
+            onChange={handleAddressChange}
+            className="border p-2 rounded"
+            required
+          />
+        </div>
 
-      <div className="mt-6 text-xl font-semibold">
-        <p>Total Price: ₹{cartData.totalPrice}</p>
-        <button
-          onClick={makePayment}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          disabled={!address.trim()}
-        >
-          Checkout
-        </button>
+        <div className="mt-6 text-xl font-semibold">
+          <p>Total Price: ₹{cartData.totalPrice}</p>
+          <button
+            onClick={makePayment}
+            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
       </div>
     </div>
   );

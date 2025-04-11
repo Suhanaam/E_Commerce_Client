@@ -39,6 +39,8 @@ import { UserWishlist } from "../pages/user/UserWishlist";
 import { ProductShow } from "../pages/user/ProductShow";
 import { ProductList2 } from "../pages/user/ProductList2";
 import { UserCheckout } from "../pages/user/UserCheckout";
+import { PaymentSuccess } from "../pages/user/PaymentSuccess";
+import { PaymentFail } from "../pages/user/PaymentFail";
 
 export const router = createBrowserRouter([
   {
@@ -79,11 +81,11 @@ export const router = createBrowserRouter([
       { path: "checkout", element: <UserCheckout /> },
       {
         path: "payment/success",
-        element: <h1>Payment success </h1>,
+        element:<PaymentSuccess />,
     },
     {
         path: "payment/cancel",
-        element: <h1>Payment Cancelled </h1>,
+        element: <PaymentFail />,
     },
       
 

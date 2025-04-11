@@ -12,12 +12,23 @@ export const PaymentSuccess = () => {
         const sessionId = localStorage.getItem("sessionId");
         const deliveryAddress = JSON.parse(localStorage.getItem("deliveryAddress"));
 
-        // Get cart data from backend to include in order
-        const { data } = await axiosInstance.get("/cart", { withCredentials: true });
+        if (!sessionId || !deliveryAddress) {
+          setMessage("Missing session ID or address. Cannot place order.");
+          return;
+        }
+
+        const { data } = await axiosInstance.get("/cart", {
+          withCredentials: true,
+        });
+
+        if (!data?.cart?.items || data.cart.items.length === 0) {
+          setMessage("Your cart is empty. Cannot place order.");
+          return;
+        }
 
         const payload = {
-          items: data.cart.items,
           sessionId,
+          items: data.cart.items,
           deliveryAddress,
         };
 
@@ -25,15 +36,13 @@ export const PaymentSuccess = () => {
           withCredentials: true,
         });
 
-        console.log("Order created:", response.data);
         setMessage("Order placed successfully!");
         localStorage.removeItem("sessionId");
         localStorage.removeItem("deliveryAddress");
 
-        // Optionally clear cart or navigate after delay
         setTimeout(() => navigate("/orders"), 2000);
       } catch (error) {
-        console.error(error);
+        console.error("Error creating order:", error.response?.data || error.message);
         setMessage("Something went wrong creating the order.");
       }
     };

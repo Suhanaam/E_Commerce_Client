@@ -68,6 +68,9 @@ export const UserCart = () => {
         products: cartData?.items,
         address,
       }, { withCredentials: true });
+      localStorage.setItem("sessionId", session.data.sessionId);
+      localStorage.setItem("deliveryAddress", JSON.stringify(address));
+
 
       await stripe.redirectToCheckout({ sessionId: session.data.sessionId });
     } catch (error) {

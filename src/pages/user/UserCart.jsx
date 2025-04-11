@@ -42,8 +42,9 @@ export const UserCart = () => {
 
   const makePayment = async () => {
     try {
+      console.log("cartdata===",cartData);
         const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
-
+        console.log("cartdata===",cartData);
         const session = await axiosInstance({
             url: "/payment/create-checkout-session",
             method: "POST",

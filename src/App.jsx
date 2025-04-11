@@ -1,25 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   RouterProvider,
 } from "react-router-dom";
 import { router } from './routes/Router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveUser } from './redux/features/userSlice'; // ✅ make sure path is correct
 import { Toaster } from 'react-hot-toast';
-import { saveUser } from './redux/features/userSlice'; // ✅ make sure this path is correct
 
 export const App = () => {
-  const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
 
-  // ✅ Restore user from localStorage into Redux on app load
+  const theme = useSelector((state) => state.theme.theme);
+
+  // ✅ Load user from localStorage into Redux
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      dispatch(saveUser(JSON.parse(storedUser)));
+    const userFromStorage = localStorage.getItem("user");
+    if (userFromStorage) {
+      dispatch(saveUser(JSON.parse(userFromStorage)));
     }
   }, [dispatch]);
 
-  // ✅ Apply selected theme
+  // ✅ Set theme
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
@@ -30,6 +31,6 @@ export const App = () => {
       <Toaster />
     </>
   );
-}
+};
 
 export default App;

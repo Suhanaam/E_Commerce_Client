@@ -21,7 +21,7 @@ export const PaymentSuccess = () => {
           deliveryAddress,
         };
 
-        const response = await axiosInstance.post("/orders/create", payload, {
+        const response = await axiosInstance.post("/order/create", payload, {
           withCredentials: true,
         });
 

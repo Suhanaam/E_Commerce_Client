@@ -41,6 +41,7 @@ import { ProductList2 } from "../pages/user/ProductList2";
 import { UserCheckout } from "../pages/user/UserCheckout";
 import { PaymentSuccess } from "../pages/user/PaymentSuccess";
 import { PaymentFail } from "../pages/user/PaymentFail";
+import { UserOrder } from "../pages/user/UserOrder";
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,8 @@ export const router = createBrowserRouter([
       { path: "allproducts", element: <ProductShow /> },
       { path: "productList2/:id", element: <ProductList2 /> },
       { path: "checkout", element: <UserCheckout /> },
+      { path: "order", element: <UserOrder /> },
+
       {
         path: "payment/success",
         element:<PaymentSuccess />,

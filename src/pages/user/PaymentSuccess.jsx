@@ -35,12 +35,13 @@ export const PaymentSuccess = () => {
         const response = await axiosInstance.post("/order/create", payload, {
           withCredentials: true,
         });
-
+        await axiosInstance.delete("/cart/clear", { withCredentials: true });
         setMessage("Order placed successfully!");
+
         localStorage.removeItem("sessionId");
         localStorage.removeItem("deliveryAddress");
 
-        setTimeout(() => navigate("/orders"), 2000);
+        setTimeout(() => navigate("/order"), 2000);
       } catch (error) {
         console.error("Error creating order:", error.response?.data || error.message);
         setMessage("Something went wrong creating the order.");

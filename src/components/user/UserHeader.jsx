@@ -28,7 +28,7 @@ export const UserHeader = () => {
         {dropdownOpen && (
           <div className="absolute right-0 mt-2 bg-white text-black shadow-lg rounded w-48">
             <Link to="/user/allproducts" className="block px-4 py-2 hover:bg-gray-200">View Products</Link>
-            <Link to="/user/orders" className="block px-4 py-2 hover:bg-gray-200">View Orders</Link>
+            <Link to="/user/order" className="block px-4 py-2 hover:bg-gray-200">View Orders</Link>
             <Link to="/user/wishlist" className="block px-4 py-2 hover:bg-gray-200">View Wishlist</Link>
             <Link to="/user/cart" className="block px-4 py-2 hover:bg-gray-200">View Cart</Link>
             <Link to="/user/profile" className="block px-4 py-2 hover:bg-gray-200">View Profile</Link>

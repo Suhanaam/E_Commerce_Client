@@ -5,7 +5,7 @@ import {
 import { router } from './routes/Router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-import { saveUser } from './redux/userSlice'; // ✅ make sure this path is correct
+import { saveUser } from './redux/features/userSlice'; // ✅ make sure this path is correct
 
 export const App = () => {
   const theme = useSelector((state) => state.theme.theme);

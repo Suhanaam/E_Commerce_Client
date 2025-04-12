@@ -41,7 +41,7 @@ import { UserCheckout } from "../pages/user/UserCheckout";
 import { PaymentSuccess } from "../pages/user/PaymentSuccess";
 import { PaymentFail } from "../pages/user/PaymentFail";
 import { UserOrder } from "../pages/user/UserOrder";
-import { SellerOrders } from "../pages/seller/SellerOrders";
+
 import { SellerViewOrder } from "../pages/seller/SellerViewOrder";
 
 export const router = createBrowserRouter([

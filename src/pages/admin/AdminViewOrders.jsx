@@ -12,20 +12,21 @@ export const AdminViewOrders = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("All");
+  const [error, setError] = useState(null);
 
   const ORDERS_PER_PAGE = 5;
 
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
+      setError(null);
       try {
         const response = await axiosInstance.get("/order/all", {
           withCredentials: true,
         });
-        console.log("fetched data====",response.data);
         setOrders(response.data.orders);
-        console.log("fetched data====",response.data.orders); // Assuming the response has the orders as an array
       } catch (error) {
+        setError("Failed to fetch orders. Please try again later.");
         console.error("Error fetching orders:", error);
       } finally {
         setLoading(false);
@@ -39,8 +40,8 @@ export const AdminViewOrders = () => {
       await axiosInstance.put(`/admin/order/${orderId}/product/${productId}/accept`, {}, {
         withCredentials: true,
       });
-      // After accepting, check if all products are processed
       await checkIfAllProcessed(orderId);
+      alert("Product accepted successfully!");
     } catch (error) {
       console.error("Error accepting product:", error);
     }
@@ -67,7 +68,6 @@ export const AdminViewOrders = () => {
       await axiosInstance.put(`/admin/order/${orderId}/set-shipped`, {}, {
         withCredentials: true,
       });
-      // Update order status to shipped once all products are shipped
     } catch (error) {
       console.error("Error marking order as shipped:", error);
     }
@@ -88,6 +88,7 @@ export const AdminViewOrders = () => {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Admin Order Management</h2>
 
+      {/* Status Filter */}
       <div className="mb-4 flex items-center gap-4">
         <label>Status Filter:</label>
         <select
@@ -105,6 +106,10 @@ export const AdminViewOrders = () => {
         </select>
       </div>
 
+      {/* Error handling */}
+      {error && <p className="text-red-500">{error}</p>}
+
+      {/* Loading state */}
       {loading ? (
         <p>Loading orders...</p>
       ) : (
@@ -127,7 +132,7 @@ export const AdminViewOrders = () => {
                   <tr key={`${order._id}-${index}`} className="text-center">
                     <td className="p-2 border">{order._id}</td>
                     <td className="p-2 border">{item.product.name}</td>
-                    <td className="p-2 border">{item.product.seller.name}</td>
+                    <td className="p-2 border">{item.product.seller?.name || "Unknown Seller"}</td>
                     <td className="p-2 border">{item.quantity}</td>
                     <td className="p-2 border">₹{item.price}</td>
                     <td className="p-2 border">
@@ -138,7 +143,7 @@ export const AdminViewOrders = () => {
                       </span>
                     </td>
                     <td className="p-2 border space-x-2">
-                      {item.product.deliveryStatus !== "shipped" && (
+                      {item.product.deliveryStatus !== "Shipped" && (
                         <button
                           onClick={() => handleSellerAccept(order._id, item.product._id)}
                           className="bg-blue-500 text-white px-2 py-1 rounded"
@@ -157,6 +162,13 @@ export const AdminViewOrders = () => {
 
       {/* Pagination */}
       <div className="mt-4 flex justify-center gap-2">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+          className="px-3 py-1 rounded border"
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
         {Array.from({
           length: Math.ceil(filteredOrders.length / ORDERS_PER_PAGE),
         }).map((_, idx) => (
@@ -170,6 +182,13 @@ export const AdminViewOrders = () => {
             {idx + 1}
           </button>
         ))}
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(Math.ceil(filteredOrders.length / ORDERS_PER_PAGE), prev + 1))}
+          className="px-3 py-1 rounded border"
+          disabled={currentPage === Math.ceil(filteredOrders.length / ORDERS_PER_PAGE)}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

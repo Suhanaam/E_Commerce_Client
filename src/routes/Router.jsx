@@ -42,6 +42,7 @@ import { PaymentSuccess } from "../pages/user/PaymentSuccess";
 import { PaymentFail } from "../pages/user/PaymentFail";
 import { UserOrder } from "../pages/user/UserOrder";
 import { SellerOrders } from "../pages/seller/SellerOrders";
+import { SellerViewOrder } from "../pages/seller/SellerViewOrder";
 
 export const router = createBrowserRouter([
   {
@@ -111,7 +112,7 @@ export const router = createBrowserRouter([
           { path: "myproducts", element: <SellerProducts /> },
           { path: "profile", element: <SellerProfile /> },
           { path: "createProduct", element: <ProductCreate /> },
-          { path: "orders", element: <SellerOrders /> },
+          { path: "orders", element: <SellerViewOrder /> },
           { path: "reviews", element: <ViewReview /> },
           { path: "updateprofile", element: <SellerProfileUpdate /> },
         ],

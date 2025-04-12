@@ -47,13 +47,25 @@ export const UserOrder = () => {
 
             <div className="mt-2">
               <p className="font-medium mb-1">Products:</p>
-              <ul className="list-disc ml-6 text-gray-800">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {order.items.map((item) => (
-                  <li key={item._id}>
-                    {item.product?.name || "Product removed"} — Qty: {item.quantity}, Price: ₹{item.price}
-                  </li>
+                  <div
+                    key={item._id}
+                    className="flex items-center border rounded p-2 gap-4"
+                  >
+                    <img
+                      src={item.product?.images || "/placeholder.png"}
+                      alt={item.product?.name || "Product"}
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                    <div>
+                      <p className="font-semibold">{item.product?.name || "Product removed"}</p>
+                      <p>Qty: {item.quantity}</p>
+                      <p>Price: ₹{item.price}</p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         ))

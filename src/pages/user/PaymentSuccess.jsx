@@ -41,7 +41,7 @@ export const PaymentSuccess = () => {
         localStorage.removeItem("sessionId");
         localStorage.removeItem("deliveryAddress");
 
-        setTimeout(() => navigate("/user/cart"), 2000);
+        setTimeout(() => navigate("/user/order"), 2000);
       } catch (error) {
         console.error("Error creating order:", error.response?.data || error.message);
         setMessage("Something went wrong creating the order.");

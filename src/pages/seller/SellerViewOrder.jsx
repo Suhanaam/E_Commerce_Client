@@ -9,7 +9,7 @@ export const SellerViewOrder = () => {
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/seller/orders", {
+        const response = await axiosInstance.get("/order/seller-orders", {
           withCredentials: true,
         });
         setOrders(response.data.orders);

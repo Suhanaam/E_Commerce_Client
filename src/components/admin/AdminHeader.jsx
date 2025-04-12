@@ -10,7 +10,7 @@ export const AdminHeader = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-  //  dispatch(logoutUser()); // Dispatch logout action
+    dispatch(logoutUser()); // Dispatch logout action
     navigate("/admin/login"); // Redirect to login page
   };
 

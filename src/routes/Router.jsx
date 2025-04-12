@@ -22,7 +22,6 @@ import { AdminLogin } from "../pages/admin/AdminLogin";
 import { SellerProfile } from "../pages/seller/SellerProfile";
 import { SellerProducts } from "../pages/seller/SellerProducts";
 import { ProductCreate } from "../pages/seller/ProductCreate";
-import { ViewOrder } from "../pages/seller/ViewOrder";
 import { ViewReview } from "../pages/seller/ViewReview";
 import { UserLayout } from "../layout/UserLayout";
 import { SellerProfileUpdate } from "../pages/seller/SellerProfileUpdate";
@@ -42,6 +41,7 @@ import { UserCheckout } from "../pages/user/UserCheckout";
 import { PaymentSuccess } from "../pages/user/PaymentSuccess";
 import { PaymentFail } from "../pages/user/PaymentFail";
 import { UserOrder } from "../pages/user/UserOrder";
+import { SellerOrders } from "../pages/seller/SellerOrders";
 
 export const router = createBrowserRouter([
   {
@@ -111,7 +111,7 @@ export const router = createBrowserRouter([
           { path: "myproducts", element: <SellerProducts /> },
           { path: "profile", element: <SellerProfile /> },
           { path: "createProduct", element: <ProductCreate /> },
-          { path: "orders", element: <ViewOrder /> },
+          { path: "orders", element: <SellerOrders /> },
           { path: "reviews", element: <ViewReview /> },
           { path: "updateprofile", element: <SellerProfileUpdate /> },
         ],

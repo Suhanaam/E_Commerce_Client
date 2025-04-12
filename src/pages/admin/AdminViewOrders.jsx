@@ -24,7 +24,8 @@ export const AdminViewOrders = () => {
         const response = await axiosInstance.get("/order/all", {
           withCredentials: true,
         });
-        setOrders(response.data.orders);
+        console.log("Orders API response:", response.data); // Debug log
+        setOrders(response.data.orders || []); // Safe fallback
       } catch (error) {
         setError("Failed to fetch orders. Please try again later.");
         console.error("Error fetching orders:", error);
@@ -37,9 +38,11 @@ export const AdminViewOrders = () => {
 
   const handleSellerAccept = async (orderId, productId) => {
     try {
-      await axiosInstance.put(`/admin/order/${orderId}/product/${productId}/accept`, {}, {
-        withCredentials: true,
-      });
+      await axiosInstance.put(
+        `/admin/order/${orderId}/product/${productId}/accept`,
+        {},
+        { withCredentials: true }
+      );
       await checkIfAllProcessed(orderId);
       alert("Product accepted successfully!");
     } catch (error) {
@@ -49,14 +52,17 @@ export const AdminViewOrders = () => {
 
   const checkIfAllProcessed = async (orderId) => {
     try {
-      const response = await axiosInstance.get(`/admin/order/${orderId}/check-processing`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get(
+        `/admin/order/${orderId}/check-processing`,
+        { withCredentials: true }
+      );
 
       if (response.data.allProcessed) {
-        await axiosInstance.put(`/admin/order/${orderId}/set-processing`, {}, {
-          withCredentials: true,
-        });
+        await axiosInstance.put(
+          `/admin/order/${orderId}/set-processing`,
+          {},
+          { withCredentials: true }
+        );
       }
     } catch (error) {
       console.error("Error checking order processing status:", error);
@@ -65,15 +71,18 @@ export const AdminViewOrders = () => {
 
   const handleOrderShipped = async (orderId) => {
     try {
-      await axiosInstance.put(`/admin/order/${orderId}/set-shipped`, {}, {
-        withCredentials: true,
-      });
+      await axiosInstance.put(
+        `/admin/order/${orderId}/set-shipped`,
+        {},
+        { withCredentials: true }
+      );
     } catch (error) {
       console.error("Error marking order as shipped:", error);
     }
   };
 
-  const filteredOrders = orders.filter((order) =>
+  // Defensive: always work with array
+  const filteredOrders = (orders || []).filter((order) =>
     statusFilter === "All"
       ? true
       : order.deliveryStatus === statusFilter
@@ -132,12 +141,16 @@ export const AdminViewOrders = () => {
                   <tr key={`${order._id}-${index}`} className="text-center">
                     <td className="p-2 border">{order._id}</td>
                     <td className="p-2 border">{item.product.name}</td>
-                    <td className="p-2 border">{item.product.seller?.name || "Unknown Seller"}</td>
+                    <td className="p-2 border">
+                      {item.product.seller?.name || "Unknown Seller"}
+                    </td>
                     <td className="p-2 border">{item.quantity}</td>
                     <td className="p-2 border">₹{item.price}</td>
                     <td className="p-2 border">
                       <span
-                        className={`text-white text-sm px-2 py-1 rounded ${statusColors[item.product.deliveryStatus]}`}
+                        className={`text-white text-sm px-2 py-1 rounded ${
+                          statusColors[item.product.deliveryStatus] || "bg-gray-500"
+                        }`}
                       >
                         {item.product.deliveryStatus}
                       </span>
@@ -145,7 +158,9 @@ export const AdminViewOrders = () => {
                     <td className="p-2 border space-x-2">
                       {item.product.deliveryStatus !== "Shipped" && (
                         <button
-                          onClick={() => handleSellerAccept(order._id, item.product._id)}
+                          onClick={() =>
+                            handleSellerAccept(order._id, item.product._id)
+                          }
                           className="bg-blue-500 text-white px-2 py-1 rounded"
                         >
                           Accept
@@ -183,9 +198,18 @@ export const AdminViewOrders = () => {
           </button>
         ))}
         <button
-          onClick={() => setCurrentPage((prev) => Math.min(Math.ceil(filteredOrders.length / ORDERS_PER_PAGE), prev + 1))}
+          onClick={() =>
+            setCurrentPage((prev) =>
+              Math.min(
+                Math.ceil(filteredOrders.length / ORDERS_PER_PAGE),
+                prev + 1
+              )
+            )
+          }
           className="px-3 py-1 rounded border"
-          disabled={currentPage === Math.ceil(filteredOrders.length / ORDERS_PER_PAGE)}
+          disabled={
+            currentPage === Math.ceil(filteredOrders.length / ORDERS_PER_PAGE)
+          }
         >
           Next
         </button>

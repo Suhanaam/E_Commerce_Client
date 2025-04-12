@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-//import { logoutUser } from "../features/userSlice"; // Import logout action
+import { clearUser } from "../../redux/features/userSlice";
 
 export const AdminHeader = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,7 +10,7 @@ export const AdminHeader = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logoutUser()); // Dispatch logout action
+    dispatch(clearUser());// Dispatch logout action
     navigate("/admin/login"); // Redirect to login page
   };
 

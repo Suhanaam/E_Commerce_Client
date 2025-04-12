@@ -12,6 +12,7 @@ export const AdminViewOrders = () => {
         const response = await axiosInstance.get("/admin/orders", {
           withCredentials: true,
         });
+        console.log(response.data.orders);
         setOrders(response.data.orders);
       } catch (error) {
         console.error("Error fetching orders:", error);

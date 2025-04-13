@@ -21,6 +21,7 @@ export const AdminViewOrders = () => {
       const res = await axiosInstance.get("/order/all", {
         withCredentials: true,
       });
+      console.log("Orders from backend:", res.data); 
       setOrders(res.data); // use backend response directly
     } catch (error) {
       console.error("Failed to fetch orders", error);
@@ -154,14 +155,14 @@ export const AdminViewOrders = () => {
     </button>
 )}
 
-                    {order.deliveryStatus === "Shipped" && (
+                    {(order.deliveryStatus === "Shipped")? (
                       <button
                         onClick={() => handleMarkDelivered(order._id)}
                         className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
                       >
                         Mark as Delivered
                       </button>
-                    )}
+                    ):null}
 
                     {order.deliveryStatus !== "Cancelled" &&
                       order.deliveryStatus !== "Delivered" && (

@@ -11,6 +11,7 @@ const statusColors = {
 export const AdminViewOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("All");
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -32,15 +33,35 @@ export const AdminViewOrders = () => {
     fetchOrders();
   }, []);
 
+  const filteredOrders =
+    statusFilter === "All"
+      ? orders
+      : orders.filter((order) => order.deliveryStatus === statusFilter);
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Admin Orders</h2>
 
+      {/* Filter */}
+      <div className="mb-4 flex items-center gap-4">
+        <label>Status Filter:</label>
+        <select
+          className="border px-2 py-1 rounded"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="All">All</option>
+          <option value="Pending">Pending</option>
+          <option value="Processing">Processing</option>
+          <option value="Shipped">Shipped</option>
+        </select>
+      </div>
+
       {error && <p className="text-red-500">{error}</p>}
       {loading ? (
         <p>Loading orders...</p>
-      ) : orders.length === 0 ? (
-        <p>No orders found.</p>
+      ) : filteredOrders.length === 0 ? (
+        <p>No matching orders found.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300 rounded">
@@ -53,7 +74,7 @@ export const AdminViewOrders = () => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {filteredOrders.map((order) => (
                 <tr key={order._id} className="text-center">
                   <td className="p-2 border">{order._id}</td>
                   <td className="p-2 border">
@@ -74,7 +95,6 @@ export const AdminViewOrders = () => {
                     </span>
                   </td>
                   <td className="p-2 border">
-                    {/* Example action — you can expand with more controls */}
                     {order.deliveryStatus === "Pending" && (
                       <button className="bg-blue-500 text-white px-2 py-1 rounded">
                         Accept

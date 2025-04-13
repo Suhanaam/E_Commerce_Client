@@ -24,8 +24,8 @@ export const AdminViewOrders = () => {
         const response = await axiosInstance.get("/order/all", {
           withCredentials: true,
         });
-        console.log("Orders API response:", response.data); // Debug log
-        setOrders(response.data.orders || []); // Safe fallback
+        console.log("Orders API response:", response.data);
+        setOrders(response.data.orders || []);
       } catch (error) {
         setError("Failed to fetch orders. Please try again later.");
         console.error("Error fetching orders:", error);
@@ -81,7 +81,6 @@ export const AdminViewOrders = () => {
     }
   };
 
-  // Defensive: always work with array
   const filteredOrders = (orders || []).filter((order) =>
     statusFilter === "All"
       ? true
@@ -105,7 +104,7 @@ export const AdminViewOrders = () => {
           value={statusFilter}
           onChange={(e) => {
             setStatusFilter(e.target.value);
-            setCurrentPage(1); // Reset pagination when filter changes
+            setCurrentPage(1);
           }}
         >
           <option value="All">All</option>
@@ -140,24 +139,21 @@ export const AdminViewOrders = () => {
                 order.items.map((item, index) => (
                   <tr key={`${order._id}-${index}`} className="text-center">
                     <td className="p-2 border">{order._id}</td>
-                    <td className="p-2 border">{item.product.name}</td>
-                    <td className="p-2 border">
-                      {item.product.seller?.name || "Unknown Seller"}
-                    </td>
+                    <td className="p-2 border">{item.product?.name}</td>
+                    <td className="p-2 border">{item.seller || "Unknown Seller"}</td>
                     <td className="p-2 border">{item.quantity}</td>
                     <td className="p-2 border">₹{item.price}</td>
                     <td className="p-2 border">
-  <span
-    className={`text-white text-sm px-2 py-1 rounded ${
-      statusColors[order.deliveryStatus] || "bg-gray-500"
-    }`}
-  >
-    {order.deliveryStatus}
-  </span>
-</td>
-
+                      <span
+                        className={`text-white text-sm px-2 py-1 rounded ${
+                          statusColors[item.productDeliveryStatus] || "bg-gray-500"
+                        }`}
+                      >
+                        {item.productDeliveryStatus}
+                      </span>
+                    </td>
                     <td className="p-2 border space-x-2">
-                      {item.product.deliveryStatus !== "Shipped" && (
+                      {item.productDeliveryStatus !== "Shipped" && (
                         <button
                           onClick={() =>
                             handleSellerAccept(order._id, item.product._id)

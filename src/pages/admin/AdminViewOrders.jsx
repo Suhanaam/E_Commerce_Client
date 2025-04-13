@@ -81,7 +81,7 @@ export const AdminViewOrders = () => {
   // mark as delivered
   const handleMarkDelivered = async (orderId) => {
     try {
-      await axiosInstance.put(`/admin/order/${orderId}/mark-delivered`, {}, {
+      await axiosInstance.put(`/admin/order/${orderId}/set-delivered`, {}, {
         withCredentials: true,
       });
       fetchOrders();
@@ -89,6 +89,7 @@ export const AdminViewOrders = () => {
       console.error("Failed to mark as delivered", error);
     }
   };
+  
 
 
   // Filter orders based on overall delivery status

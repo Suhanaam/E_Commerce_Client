@@ -147,14 +147,15 @@ export const AdminViewOrders = () => {
                     <td className="p-2 border">{item.quantity}</td>
                     <td className="p-2 border">₹{item.price}</td>
                     <td className="p-2 border">
-                      <span
-                        className={`text-white text-sm px-2 py-1 rounded ${
-                          statusColors[item.product.deliveryStatus] || "bg-gray-500"
-                        }`}
-                      >
-                        {item.product.deliveryStatus}
-                      </span>
-                    </td>
+  <span
+    className={`text-white text-sm px-2 py-1 rounded ${
+      statusColors[order.deliveryStatus] || "bg-gray-500"
+    }`}
+  >
+    {order.deliveryStatus}
+  </span>
+</td>
+
                     <td className="p-2 border space-x-2">
                       {item.product.deliveryStatus !== "Shipped" && (
                         <button

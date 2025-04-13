@@ -6,27 +6,6 @@ export const UserOrder = () => {
   const [orders, setOrders] = useState([]);
   const { userData } = useSelector((state) => state.user);
 
-  const [reviewProductId, setReviewProductId] = useState(null);
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
-
-  const handleReviewSubmit = async (productId) => {
-    try {
-      await axiosInstance.post(
-        "/reviews",
-        { product: productId, rating, comment },
-        { withCredentials: true }
-      );
-      alert("Review submitted!");
-      setReviewProductId(null);
-      setRating(5);
-      setComment("");
-    } catch (error) {
-      console.error("Error submitting review:", error);
-      alert("Failed to submit review");
-    }
-  };
-
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -41,6 +20,38 @@ export const UserOrder = () => {
     fetchOrders();
   }, []);
 
+  const addReview = async (itemId, productId, orderId) => {
+    
+  const rating = prompt("Enter rating (1-5):");
+  const comment = prompt("Enter your review:");
+
+  if (!rating || !comment) {
+    alert("Both rating and comment are required!");
+    return;
+  }
+
+  try {
+    const response = await axiosInstance.post(
+      "/review",
+      {
+        productId,
+        orderId,
+        rating: Number(rating),
+        comment,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    alert("Review submitted successfully!");
+  } catch (error) {
+    console.error("Failed to create review", error);
+    alert("Failed to submit review.");
+  }
+};
+
+
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">My Orders</h2>
@@ -49,73 +60,57 @@ export const UserOrder = () => {
       ) : (
         orders.map((order) => (
           <div key={order._id} className="border rounded-lg p-4 mb-6 shadow-sm">
-            {/* ... Order details code ... */}
+            <p className="text-sm text-gray-500 mb-1">Order ID: {order._id}</p>
+            <p className="font-medium text-lg mb-2">
+              Ordered on: {new Date(order.createdAt).toLocaleString()}
+            </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-              {order.items.map((item) => (
-                <div
-                  key={item._id}
-                  className="flex flex-col border rounded p-2 gap-2"
-                >
-                  <div className="flex items-center gap-4">
+            <div className="mb-2">
+              <p><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
+              <p><strong>Payment Status:</strong> <span className="text-blue-600">{order.paymentStatus}</span></p>
+              <p><strong>Delivery Status:</strong> <span className="text-green-700">{order.deliveryStatus}</span></p>
+            </div>
+
+            <div className="mb-2">
+              <p className="font-medium">Delivery Address:</p>
+              <p>{order.deliveryAddress.name}, {order.deliveryAddress.phone}</p>
+              <p>{order.deliveryAddress.address}, {order.deliveryAddress.pincode}</p>
+            </div>
+
+            <div className="mt-2">
+              <p className="font-medium mb-1">Products:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {order.items.map((item) => (
+                  <div
+                    key={item._id}
+                    className="flex items-center border rounded p-2 gap-4"
+                  >
                     <img
                       src={item.product?.images || "/placeholder.png"}
                       alt={item.product?.name || "Product"}
                       className="w-20 h-20 object-cover rounded"
                     />
                     <div>
-                      <p className="font-semibold">
-                        {item.product?.name || "Product removed"}
-                      </p>
+                      <p className="font-semibold">{item.product?.name || "Product removed"}</p>
                       <p>Qty: {item.quantity}</p>
                       <p>Price: ₹{item.price}</p>
                     </div>
-                  </div>
-
-                  {order.deliveryStatus === "Delivered" && (
-                    <div className="mt-2">
-                      {reviewProductId === item.product._id ? (
-                        <div className="space-y-2">
-                          <input
-                            type="number"
-                            min="1"
-                            max="5"
-                            value={rating}
-                            onChange={(e) => setRating(e.target.value)}
-                            className="border p-1 w-full"
-                            placeholder="Rating (1-5)"
-                          />
-                          <textarea
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            className="border p-1 w-full"
-                            placeholder="Write your review"
-                          ></textarea>
-                          <button
-                            onClick={() => handleReviewSubmit(item.product._id)}
-                            className="bg-blue-600 text-white px-3 py-1 rounded"
-                          >
-                            Submit Review
-                          </button>
-                          <button
-                            onClick={() => setReviewProductId(null)}
-                            className="text-sm text-gray-500 ml-2"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      ) : (
+                    <div>
+                     
+                    { order.deliveryStatus === "Delivered" ? (
                         <button
-                          onClick={() => setReviewProductId(item.product._id)}
-                          className="bg-green-600 text-white px-3 py-1 rounded"
-                        >
-                          Add Review
-                        </button>
-                      )}
+                            onClick={() => addReview(item._id, item.product._id, order._id)}
+                             className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
+                         >
+                        Add Review
+                          </button>
+                      ) : null}
+
+
                     </div>
-                  )}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ))

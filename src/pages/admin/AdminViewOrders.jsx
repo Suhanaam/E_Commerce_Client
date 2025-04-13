@@ -6,6 +6,8 @@ const statusColors = {
   Pending: "bg-red-500",
   Processing: "bg-yellow-400",
   Shipped: "bg-green-500",
+  Delivered: "bg-blue-600",
+  Cancelled: "bg-gray-500",
 };
 
 export const AdminViewOrders = () => {
@@ -169,15 +171,7 @@ export const AdminViewOrders = () => {
     >
       Mark as Shipped
     </button>
-  ) : (
-    <button
-      className="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed"
-      disabled
-      title="All items must be in 'Processing' status to mark as shipped."
-    >
-      Mark as Shipped
-    </button>
-  )}
+  ) : null}
   
                { order.deliveryStatus === "Shipped" && order.deliveryStatus !== "Delivered" ? (
                       <button

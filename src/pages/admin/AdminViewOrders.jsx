@@ -145,7 +145,7 @@ export const AdminViewOrders = () => {
 
                   <td className="p-2 border space-y-1">
                     {order.items.every((item) => item.productDeliveryStatus === "Processing") &&
-                      order.deliveryStatus === "Pending" && (
+                      order.deliveryStatus === "Pending" &&order.deliveryStatus === "Processing" && (
                         <button
                           onClick={() => handleMarkShipped(order._id)}
                           className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"

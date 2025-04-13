@@ -22,13 +22,13 @@ export const AdminViewOrders = () => {
         const response = await axiosInstance.get("/order/all", {
           withCredentials: true,
         });
-        console.log("response====",response);
-        setOrders(response.data.orders || []);
-        console.log("order===",response.data.orders);
-        console.log("order===",orders);
+        console.log("🟢 Fetched Orders:", response.data);
+
+        // ✅ FIXED LINE HERE
+        setOrders(response.data || []);
       } catch (error) {
         setError("Failed to fetch orders. Please try again later.");
-        console.error("Error fetching orders:", error);
+        console.error("❌ Error fetching orders:", error);
       } finally {
         setLoading(false);
       }
@@ -40,8 +40,6 @@ export const AdminViewOrders = () => {
     statusFilter === "All"
       ? orders
       : orders.filter((order) => order.deliveryStatus === statusFilter);
-
-      console.log("filtered order===",filteredOrders);
 
   return (
     <div className="p-6">

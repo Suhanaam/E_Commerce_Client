@@ -15,27 +15,6 @@ export const AdminViewOrders = () => {
   const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
 
-  const updateOrderDeliveryStatus = async (order) => {
-    const allShipped = order.items.every((item) => item.productDeliveryStatus === "Shipped");
-    const allProcessing = order.items.every((item) => item.productDeliveryStatus === "Processing");
-
-    let newStatus = "Pending";
-    if (allShipped) newStatus = "Shipped";
-    else if (allProcessing) newStatus = "Processing";
-
-    if (order.deliveryStatus !== newStatus) {
-      try {
-        await axiosInstance.put(
-          `/admin/order/${order._id}/set-delivery-status`,
-          { status: newStatus },
-          { withCredentials: true }
-        );
-      } catch (error) {
-        console.error("Failed to update delivery status", error);
-      }
-    }
-  };
-
   const fetchOrders = async () => {
     setLoading(true);
     try {
@@ -43,10 +22,6 @@ export const AdminViewOrders = () => {
         withCredentials: true,
       });
       setOrders(res.data);
-
-      for (let order of res.data) {
-        await updateOrderDeliveryStatus(order);
-      }
     } catch (error) {
       console.error("Failed to fetch orders", error);
     } finally {
@@ -63,38 +38,34 @@ export const AdminViewOrders = () => {
       await axiosInstance.put(`/admin/order/${orderId}/set-shipped`, {}, {
         withCredentials: true,
       });
-      fetchOrders();
+      await fetchOrders(); // Ensure state is updated with latest backend values
     } catch (error) {
       console.error("Failed to mark as shipped", error);
     }
   };
-//cancel the order
-  const handleCancelOrder = async (orderId) => {
-    try {
-      await axiosInstance.put(`/admin/order/${orderId}/cancel`, {}, {
-        withCredentials: true,
-      });
-      fetchOrders();
-    } catch (error) {
-      console.error("Failed to cancel order", error);
-    }
-  };
 
-  // mark as delivered
   const handleMarkDelivered = async (orderId) => {
     try {
       await axiosInstance.put(`/admin/order/${orderId}/set-delivered`, {}, {
         withCredentials: true,
       });
-      fetchOrders();
+      await fetchOrders(); // Refresh after marking as delivered
     } catch (error) {
       console.error("Failed to mark as delivered", error);
     }
   };
-  
 
+  const handleCancelOrder = async (orderId) => {
+    try {
+      await axiosInstance.put(`/admin/order/${orderId}/cancel`, {}, {
+        withCredentials: true,
+      });
+      await fetchOrders(); // Refresh after cancellation
+    } catch (error) {
+      console.error("Failed to cancel order", error);
+    }
+  };
 
-  // Filter orders based on overall delivery status
   const filteredOrders =
     filterStatus === "All"
       ? orders
@@ -112,7 +83,7 @@ export const AdminViewOrders = () => {
           onChange={(e) => setFilterStatus(e.target.value)}
           className="border p-1 rounded"
         >
-         <option value="All">All</option>
+          <option value="All">All</option>
           <option value="Pending">Pending</option>
           <option value="Processing">Processing</option>
           <option value="Shipped">Shipped</option>
@@ -129,25 +100,32 @@ export const AdminViewOrders = () => {
             <thead className="bg-gray-200">
               <tr>
                 <th className="p-2 border">Order ID</th>
-                <th className="p-2 border">Status</th>
-                <th className="p-2 border">products</th>
+                <th className="p-2 border">Product Status</th>
+                <th className="p-2 border">Order Status</th>
                 <th className="p-2 border">View</th>
                 <th className="p-2 border">Action</th>
               </tr>
             </thead>
             <tbody>
-            {filteredOrders.map((order) => (
+              {filteredOrders.map((order) => (
                 <tr key={order._id} className="text-center">
                   <td className="p-2 border">{order._id}</td>
+
                   <td className="p-2 border">
                     <ul className="list-disc list-inside text-left">
                       {order.items.map((item, idx) => (
-                        <li key={idx}>{item.product.name}-<span className={`text-white text-sm px-2 py-1 rounded ${statusColors[item.productDeliveryStatus]}`}>
-                        {item.productDeliveryStatus}
-                      </span></li>
+                        <li key={idx}>
+                          {item.product.name} -{" "}
+                          <span
+                            className={`text-white text-sm px-2 py-1 rounded ${statusColors[item.productDeliveryStatus]}`}
+                          >
+                            {item.productDeliveryStatus}
+                          </span>
+                        </li>
                       ))}
                     </ul>
                   </td>
+
                   <td className="p-2 border">
                     <span
                       className={`text-white text-sm px-2 py-1 rounded ${statusColors[order.deliveryStatus]}`}
@@ -155,6 +133,7 @@ export const AdminViewOrders = () => {
                       {order.deliveryStatus}
                     </span>
                   </td>
+
                   <td className="p-2 border">
                     <Link
                       to={`/admin/order/${order._id}`}
@@ -163,42 +142,37 @@ export const AdminViewOrders = () => {
                       View
                     </Link>
                   </td>
-                  <td className="p-2 border">
-  {order.items.every((item) => item.productDeliveryStatus === "Processing") ? (
-    <button
-      onClick={() => handleMarkShipped(order._id)}
-      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-    >
-      Mark as Shipped
-    </button>
-  ) : null}
-  
-               { (order.deliveryStatus === "Shipped" && order.deliveryStatus !== "Delivered") ? (
+
+                  <td className="p-2 border space-y-1">
+                    {order.items.every((item) => item.productDeliveryStatus === "Processing") &&
+                      order.deliveryStatus === "Pending" && (
+                        <button
+                          onClick={() => handleMarkShipped(order._id)}
+                          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                        >
+                          Mark as Shipped
+                        </button>
+                      )}
+
+                    {order.deliveryStatus === "Shipped" && (
                       <button
                         onClick={() => handleMarkDelivered(order._id)}
                         className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
                       >
                         Mark as Delivered
                       </button>
-                    ) : null}
+                    )}
 
-
-
-                 {  (order.deliveryStatus !== "Cancelled" && order.deliveryStatus !== "Delivered") ? (
-                      <button
-                        onClick={() => handleCancelOrder(order._id)}
-                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                      >
-                        Cancel Order
-                      </button>
-                    ):null }
-
-
-
-
-
-</td>
-
+                    {order.deliveryStatus !== "Cancelled" &&
+                      order.deliveryStatus !== "Delivered" && (
+                        <button
+                          onClick={() => handleCancelOrder(order._id)}
+                          className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                        >
+                          Cancel Order
+                        </button>
+                      )}
+                  </td>
                 </tr>
               ))}
             </tbody>

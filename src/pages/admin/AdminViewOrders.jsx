@@ -66,6 +66,30 @@ export const AdminViewOrders = () => {
       console.error("Failed to mark as shipped", error);
     }
   };
+//cancel the order
+  const handleCancelOrder = async (orderId) => {
+    try {
+      await axiosInstance.put(`/admin/order/${orderId}/cancel`, {}, {
+        withCredentials: true,
+      });
+      fetchOrders();
+    } catch (error) {
+      console.error("Failed to cancel order", error);
+    }
+  };
+
+  // mark as delivered
+  const handleMarkDelivered = async (orderId) => {
+    try {
+      await axiosInstance.put(`/admin/order/${orderId}/mark-delivered`, {}, {
+        withCredentials: true,
+      });
+      fetchOrders();
+    } catch (error) {
+      console.error("Failed to mark as delivered", error);
+    }
+  };
+
 
   // Filter orders based on overall delivery status
   const filteredOrders =
@@ -85,10 +109,12 @@ export const AdminViewOrders = () => {
           onChange={(e) => setFilterStatus(e.target.value)}
           className="border p-1 rounded"
         >
-          <option value="All">All</option>
+         <option value="All">All</option>
           <option value="Pending">Pending</option>
           <option value="Processing">Processing</option>
           <option value="Shipped">Shipped</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Cancelled">Cancelled</option>
         </select>
       </div>
 
@@ -101,6 +127,7 @@ export const AdminViewOrders = () => {
               <tr>
                 <th className="p-2 border">Order ID</th>
                 <th className="p-2 border">Status</th>
+                <th className="p-2 border">products</th>
                 <th className="p-2 border">View</th>
                 <th className="p-2 border">Action</th>
               </tr>
@@ -134,15 +161,49 @@ export const AdminViewOrders = () => {
                     </Link>
                   </td>
                   <td className="p-2 border">
-                    {order.items.some((item) => item.productDeliveryStatus === "Processing") && (
+  {order.items.every((item) => item.productDeliveryStatus === "Processing") ? (
+    <button
+      onClick={() => handleMarkShipped(order._id)}
+      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+    >
+      Mark as Shipped
+    </button>
+  ) : (
+    <button
+      className="bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed"
+      disabled
+      title="All items must be in 'Processing' status to mark as shipped."
+    >
+      Mark as Shipped
+    </button>
+  )}
+  
+               { order.deliveryStatus === "Shipped" && order.deliveryStatus !== "Delivered" ? (
                       <button
-                        onClick={() => handleMarkShipped(order._id)}
-                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                        onClick={() => handleMarkDelivered(order._id)}
+                        className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
                       >
-                        Mark as Shipped
+                        Mark as Delivered
+                      </button>
+                    ) : null}
+
+
+
+                 {  order.deliveryStatus !== "Cancelled" && order.deliveryStatus !== "Delivered" && (
+                      <button
+                        onClick={() => handleCancelOrder(order._id)}
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                      >
+                        Cancel Order
                       </button>
                     )}
-                  </td>
+
+
+
+
+
+</td>
+
                 </tr>
               ))}
             </tbody>

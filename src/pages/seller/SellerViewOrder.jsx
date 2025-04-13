@@ -34,28 +34,42 @@ export const SellerViewOrder = () => {
 
   const handleAcceptOrder = async (orderId, productId) => {
     try {
-      await axiosInstance.put(`/seller/order/${orderId}/product/${productId}/accept`, {}, {
-        withCredentials: true,
-      });
+      await axiosInstance.put(
+        `/seller/order/${orderId}/product/${productId}/accept`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      // Refresh data
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId
+            ? {
+                ...order,
+                items: order.items.map((item) =>
+                  item.product._id === productId
+                    ? {
+                        ...item,
+                        productDeliveryStatus: "Processing",
+                      }
+                    : item
+                ),
+              }
+            : order
+        )
+      );
     } catch (error) {
       console.error("Error accepting order:", error);
-    }
-  };
-
-  const handleShipProduct = async (orderId, productId) => {
-    try {
-      await axiosInstance.put(`/seller/order/${orderId}/product/${productId}/ship`, {}, {
-        withCredentials: true,
-      });
-    } catch (error) {
-      console.error("Error shipping product:", error);
     }
   };
 
   const filteredOrders = orders.filter((order) =>
     statusFilter === "All"
       ? true
-      : order.items.some((item) => item.productDeliveryStatus === statusFilter)
+      : order.items.some(
+          (item) => item.productDeliveryStatus === statusFilter
+        )
   );
 
   const paginatedOrders = filteredOrders.slice(
@@ -117,18 +131,12 @@ export const SellerViewOrder = () => {
                     <td className="p-2 border space-x-2">
                       {item.productDeliveryStatus === "Pending" && (
                         <button
-                          onClick={() => handleAcceptOrder(order._id, item.product._id)}
+                          onClick={() =>
+                            handleAcceptOrder(order._id, item.product._id)
+                          }
                           className="bg-blue-500 text-white px-2 py-1 rounded"
                         >
                           Accept
-                        </button>
-                      )}
-                      {item.productDeliveryStatus === "Processing" && (
-                        <button
-                          onClick={() => handleShipProduct(order._id, item.product._id)}
-                          className="bg-green-500 text-white px-2 py-1 rounded"
-                        >
-                          Ship
                         </button>
                       )}
                     </td>

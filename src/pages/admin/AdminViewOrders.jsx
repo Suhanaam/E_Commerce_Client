@@ -173,7 +173,7 @@ export const AdminViewOrders = () => {
     </button>
   ) : null}
   
-               { order.deliveryStatus === "Shipped" && order.deliveryStatus !== "Delivered" ? (
+               { (order.deliveryStatus === "Shipped" && order.deliveryStatus !== "Delivered") ? (
                       <button
                         onClick={() => handleMarkDelivered(order._id)}
                         className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
@@ -184,14 +184,14 @@ export const AdminViewOrders = () => {
 
 
 
-                 {  order.deliveryStatus !== "Cancelled" && order.deliveryStatus !== "Delivered" && (
+                 {  (order.deliveryStatus !== "Cancelled" && order.deliveryStatus !== "Delivered") ? (
                       <button
                         onClick={() => handleCancelOrder(order._id)}
                         className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
                       >
                         Cancel Order
                       </button>
-                    )}
+                    ):null }
 
 
 

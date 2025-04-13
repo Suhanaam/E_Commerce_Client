@@ -106,36 +106,45 @@ export const AdminViewOrders = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.map((order) =>
-                order.items.map((item, idx) => (
-                  <tr key={`${order._id}-${idx}`} className="text-center">
-                    <td className="p-2 border">{order._id}</td>
-                    <td className="p-2 border">
-                      <span className={`text-white text-sm px-2 py-1 rounded ${statusColors[item.productDeliveryStatus]}`}>
+            {filteredOrders.map((order) => (
+                <tr key={order._id} className="text-center">
+                  <td className="p-2 border">{order._id}</td>
+                  <td className="p-2 border">
+                    <ul className="list-disc list-inside text-left">
+                      {order.items.map((item, idx) => (
+                        <li key={idx}>{item.product.name}-<span className={`text-white text-sm px-2 py-1 rounded ${statusColors[item.productDeliveryStatus]}`}>
                         {item.productDeliveryStatus}
-                      </span>
-                    </td>
-                    <td className="p-2 border">
-                      <Link
-                        to={`/admin/order/${order._id}`}
-                        className="text-blue-600 underline"
+                      </span></li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="p-2 border">
+                    <span
+                      className={`text-white text-sm px-2 py-1 rounded ${statusColors[order.deliveryStatus]}`}
+                    >
+                      {order.deliveryStatus}
+                    </span>
+                  </td>
+                  <td className="p-2 border">
+                    <Link
+                      to={`/admin/order/${order._id}`}
+                      className="text-blue-600 underline"
+                    >
+                      View
+                    </Link>
+                  </td>
+                  <td className="p-2 border">
+                    {order.items.some((item) => item.productDeliveryStatus === "Processing") && (
+                      <button
+                        onClick={() => handleMarkShipped(order._id)}
+                        className="bg-blue-500 text-white px-3 py-1 rounded"
                       >
-                        View
-                      </Link>
-                    </td>
-                    <td className="p-2 border">
-                      {item.productDeliveryStatus === "Processing" && (
-                        <button
-                          onClick={() => handleMarkShipped(order._id)}
-                          className="bg-blue-500 text-white px-3 py-1 rounded"
-                        >
-                          Mark as Shipped
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              )}
+                        Mark as Shipped
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

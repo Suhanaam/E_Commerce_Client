@@ -91,6 +91,7 @@ export const AdminViewOrders = () => {
     (currentPage - 1) * ORDERS_PER_PAGE,
     currentPage * ORDERS_PER_PAGE
   );
+  console.log("Rendering Orders:", orders);
 
   return (
     <div className="p-6">
@@ -139,17 +140,17 @@ export const AdminViewOrders = () => {
                 order.items.map((item, index) => (
                   <tr key={`${order._id}-${index}`} className="text-center">
                     <td className="p-2 border">{order._id}</td>
-                    <td className="p-2 border">{item.product?.name}</td>
-                    <td className="p-2 border">{item.seller || "Unknown Seller"}</td>
-                    <td className="p-2 border">{item.quantity}</td>
-                    <td className="p-2 border">₹{item.price}</td>
+                    <td className="p-2 border">{item?.product?.name}</td>
+                    <td className="p-2 border">{item?.seller || "Unknown Seller"}</td>
+                    <td className="p-2 border">{item?.quantity}</td>
+                    <td className="p-2 border">₹{item?.price}</td>
                     <td className="p-2 border">
                       <span
                         className={`text-white text-sm px-2 py-1 rounded ${
-                          statusColors[item.productDeliveryStatus] || "bg-gray-500"
+                          statusColors[item?.productDeliveryStatus] || "bg-gray-500"
                         }`}
                       >
-                        {item.productDeliveryStatus}
+                        {item?.productDeliveryStatus}
                       </span>
                     </td>
                     <td className="p-2 border space-x-2">

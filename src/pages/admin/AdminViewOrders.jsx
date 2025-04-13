@@ -21,14 +21,14 @@ export const AdminViewOrders = () => {
       const res = await axiosInstance.get("/order/all", {
         withCredentials: true,
       });
-      setOrders(res.data);
+      setOrders(res.data); // use backend response directly
     } catch (error) {
       console.error("Failed to fetch orders", error);
     } finally {
       setLoading(false);
     }
   };
-
+  
   useEffect(() => {
     fetchOrders();
   }, []);

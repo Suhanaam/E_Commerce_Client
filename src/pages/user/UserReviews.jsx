@@ -11,6 +11,7 @@ const UserReviews = () => {
       const res = await axiosInstance.get("/review/my-reviews", {
         withCredentials: true,
       });
+      console.log(res.data);
       setReviews(res.data);
     } catch (error) {
       console.error("Failed to fetch user reviews", error);

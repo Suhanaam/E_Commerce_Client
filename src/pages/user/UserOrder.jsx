@@ -20,7 +20,7 @@ export const UserOrder = () => {
     fetchOrders();
   }, []);
 
-  const addReview = async (itemId, productId, orderId) => {
+  const addReview = async ( productId, orderId) => {
     
   const rating = prompt("Enter rating (1-5):");
   const comment = prompt("Enter your review:");
@@ -31,19 +31,13 @@ export const UserOrder = () => {
   }
 
   try {
-    const response = await axiosInstance.post(
-      "/review/add",
-      {
-        productId,
-        orderId,
-        rating: Number(rating),
-        comment,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-
+    axiosInstance.post("/review/add", {
+      product: productId, // rename here
+      orderId,
+      rating: Number(rating),
+      comment,
+    },{ withCredentials: true });
+    
     alert("Review submitted successfully!");
   } catch (error) {
     console.error("Failed to create review", error);
@@ -99,7 +93,7 @@ export const UserOrder = () => {
                      
                     { order.deliveryStatus === "Delivered" ? (
                         <button
-                            onClick={() => addReview(item._id, item.product._id, order._id)}
+                        onClick={() => addReview(item.product._id, order._id)}
                              className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-800"
                          >
                         Add Review

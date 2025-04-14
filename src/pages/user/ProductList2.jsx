@@ -74,7 +74,7 @@ export const ProductList2 = () => {
 
     const handleViewReview =async()=>{
         try {
-            const response = await axiosInstance.get("/review/productDetails?._id", {
+            const response = await axiosInstance.get(`/review/${productDetails?._id}`, {
                       withCredentials: true,
                     });
 

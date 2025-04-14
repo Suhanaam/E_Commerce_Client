@@ -32,7 +32,7 @@ export const UserOrder = () => {
 
   try {
     const response = await axiosInstance.post(
-      "/review",
+      "/review/add",
       {
         productId,
         orderId,

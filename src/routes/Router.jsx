@@ -44,6 +44,7 @@ import { PaymentFail } from "../pages/user/PaymentFail";
 import { UserOrder } from "../pages/user/UserOrder";
 
 import { SellerViewOrder } from "../pages/seller/SellerViewOrder";
+import UserReviews from "../pages/user/UserReviews";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ export const router = createBrowserRouter([
       { path: "productList2/:id", element: <ProductList2 /> },
       { path: "checkout", element: <UserCheckout /> },
       { path: "order", element: <UserOrder /> },
+      { path:"review", element:<UserReviews />}
 
       {
         path: "payment/success",

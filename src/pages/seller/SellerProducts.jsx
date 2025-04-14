@@ -23,6 +23,9 @@ export const SellerProducts = () => {
                 },
                 withCredentials: true,
               });
+              console.log(response.data);
+              console.log(response.data.data);
+
               setProducts(response.data.data);
 
      

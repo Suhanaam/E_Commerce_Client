@@ -14,8 +14,7 @@ export const HomeBox = () => {
       <div className="max-w-md">
         <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
         <p className="mb-5">
-          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-          quasi. In deleniti eaque aut repudiandae et a id nisi.
+          What are you searching for?.........i'd be happy to help you find it
         </p>
         <button className="btn btn-primary" onClick={()=>navigate('/login')}>Get Started</button>
       </div>

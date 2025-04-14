@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { axiosInstance } from "../../config/axiosInstance";
@@ -9,6 +9,7 @@ export const ProductList2 = () => {
     const params = useParams();
     console.log("hiii");
     const [productDetails, isLoading, error] = useFetch(`/products/${params?.id}`);
+    const [reviews, setReviews] = useState([]);
     console.log("Fetched product data:", productDetails);
 
 
@@ -77,6 +78,7 @@ export const ProductList2 = () => {
             const response = await axiosInstance.get(`/review/${productDetails?._id}`, {
                       withCredentials: true,
                     });
+                    setReviews(response.data.reviews);
 
                     console.log(response.data);
             
@@ -120,6 +122,21 @@ export const ProductList2 = () => {
                         
                     </div>
                 </div>
+
+                {reviews.length > 0 && (
+                <div className="mt-8">
+                    <h3 className="text-xl font-semibold mb-4">Customer Reviews</h3>
+                    <div className="space-y-4">
+                        {reviews.map((review) => (
+                            <div key={review._id} className="border p-4 rounded-md shadow-sm bg-gray-50">
+                                <p className="font-medium">{review.user?.name || "Anonymous"}</p>
+                                <p className="text-yellow-500">Rating: {review.rating} ⭐</p>
+                                <p className="text-gray-700">{review.comment}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         
         </div>
     );

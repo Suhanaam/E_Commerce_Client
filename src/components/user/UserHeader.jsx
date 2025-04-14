@@ -9,7 +9,8 @@ export const UserHeader = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logoutUser()); // Uncomment if using Redux logout action
+    dispatch(clearUser());
+        toast.success("Logged out successfully");
     navigate("/login"); // Redirect to login page
   };
 

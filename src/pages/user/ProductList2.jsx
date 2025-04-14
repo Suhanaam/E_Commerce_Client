@@ -81,7 +81,7 @@ export const ProductList2 = () => {
                     console.log(response.data);
             
         } catch (error) {
-            toast.error("unable to fetch reviews");
+            toast.error("unable to fetch reviews of",productDetails?._id);
         }
     }
 

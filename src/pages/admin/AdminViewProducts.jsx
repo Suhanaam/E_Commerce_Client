@@ -37,7 +37,7 @@ export const AdminViewProducts = () => {
    
   
      <li className="list-row" key={product._id}>
-    <div><img className="size-10 rounded-box" src={productDetails?.images?.[0] } /></div>
+    <div><img className="size-10 rounded-box" src={product?.images?.[0] } /></div>
     <div>
       <div>{product.name}</div>
       <div className="text-xs uppercase font-semibold opacity-60">${product.price}</div>

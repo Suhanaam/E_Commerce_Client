@@ -45,6 +45,7 @@ import { UserOrder } from "../pages/user/UserOrder";
 
 import { SellerViewOrder } from "../pages/seller/SellerViewOrder";
 import UserReviews from "../pages/user/UserReviews";
+import { AdminViewReviews } from "../pages/admin/AdminViewReviews";
 
 export const router = createBrowserRouter([
   {
@@ -141,6 +142,7 @@ export const router = createBrowserRouter([
           { path: "changePassword", element: <AdminChangePassword />},
           { path: "register", element: <AdminRegister />},
           { path: "profile", element: <AdminProfile />},
+          { path:"reviews",element:<AdminViewReviews />},
 
         ],
       },

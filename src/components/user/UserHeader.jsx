@@ -9,7 +9,7 @@ export const UserHeader = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    // dispatch(logoutUser()); // Uncomment if using Redux logout action
+    dispatch(logoutUser()); // Uncomment if using Redux logout action
     navigate("/login"); // Redirect to login page
   };
 

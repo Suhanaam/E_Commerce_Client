@@ -1,22 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
+import { useSelector, useDispatch } from "react-redux";
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [editData, setEditData] = useState({ rating: 5, comment: "" });
+  const { userData } = useSelector((state) => state.user);
 
-  const fetchUserReviews = async () => {
-    try {
-      const res = await axiosInstance.get("/review/my-reviews", {
-        withCredentials: true,
-      });
-      console.log(res.data);
-      setReviews(res.data);
-    } catch (error) {
-      console.error("Failed to fetch user reviews", error);
-    }
-  };
+useEffect(() => {
+    const fetchUserReviews = async () => {
+      try {
+        const response = await axiosInstance.get("/review/userReview", {
+          withCredentials: true,
+        });
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Failed to fetch reviews", error);
+      }
+    };
+    fetchUserReviews();
+  }, []);
+
+
+
+
+  // const fetchUserReviews = async () => {
+  //   try {
+  //     const res = await axiosInstance.get("/review/my-reviews", {
+  //       withCredentials: true,
+  //     });
+  //     console.log(userData);
+  //     console.log(res.data);
+  //     setReviews(res.data);
+  //   } catch (error) {
+  //     console.error("Failed to fetch user reviews", error);
+  //   }
+  // };
   
 
   const handleDelete = async (id) => {

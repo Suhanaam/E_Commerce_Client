@@ -15,6 +15,7 @@ export const LoginPage = () => {
         try {
             const response = await axiosInstance.put("/user/login", data);
             dispatch(saveUser(response?.data?.data));
+            console.log(response?.data?.data);
             toast.success("Login success");
             navigate("/user/dashboard");
         } catch (error) {

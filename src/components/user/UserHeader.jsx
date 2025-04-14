@@ -9,8 +9,8 @@ export const UserHeader = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-        dispatch(clearUser());
-        toast.success("Logged out successfully");
+       // dispatch(clearUser());
+        //toast.success("Logged out successfully");
     navigate("/login"); // Redirect to login page
   };
 

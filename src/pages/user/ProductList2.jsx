@@ -72,6 +72,19 @@ export const ProductList2 = () => {
         }
     };
 
+    const handleViewReview =async()=>{
+        try {
+            const response = await axiosInstance.get("/review/productDetails?._id", {
+                      withCredentials: true,
+                    });
+
+                    console.log(response.data);
+            
+        } catch (error) {
+            toast.error("unable to fetch reviews");
+        }
+    }
+
     if (isLoading) return <Skeltons />;
     if (error) return <p>Error loading product</p>;
     
@@ -79,7 +92,7 @@ export const ProductList2 = () => {
     return (
         <div className="container mx-auto px-4">
             <h1 className="text-2xl font-bold mb-4">Product Details are here </h1>
-            <h1>kikiki</h1>
+            
             
                 <div className="card w-96 bg-base-100 shadow-md">
                     <figure>
@@ -100,12 +113,14 @@ export const ProductList2 = () => {
                         <button className="btn btn-primary mt-4" onClick={handleAddToWishlist}>
                             Add to wishlist
                         </button>
-                        <button className="btn btn-primary mt-4" onClick="">
-                            Buy now
+                        <button className="btn btn-primary mt-4" onClick={handleViewReview}>
+                            ViewReview
                         </button>
+                        
+                        
                     </div>
                 </div>
-        <h1>kikiki</h1>
+        
         </div>
     );
 };

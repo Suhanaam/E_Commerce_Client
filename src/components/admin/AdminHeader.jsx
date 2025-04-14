@@ -33,7 +33,7 @@ export const AdminHeader = () => {
             <Link to="/admin/users" className="block px-4 py-2 hover:bg-gray-200">View Users</Link>
             <Link to="/admin/orders" className="block px-4 py-2 hover:bg-gray-200">View Orders</Link>
             <Link to="/admin/products" className="block px-4 py-2 hover:bg-gray-200">View Products</Link>
-            <Link to="/admin/reviews" className="block px-4 py-2 hover:bg-gray-200">View Reviews</Link>
+            
           </div>
         )}
       </div>

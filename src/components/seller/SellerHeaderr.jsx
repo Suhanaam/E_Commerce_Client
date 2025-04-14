@@ -34,9 +34,7 @@ export const SellerHeaderr = () => {
                             <Link to="/seller/orders">
                                 <li>Orders</li>
                             </Link>
-                            <Link to="/seller/reviews">
-                                <li>Reviews</li>
-                            </Link>
+                           
                         </ul>
                     </nav>
                     <div className="flex justify-center gap-3">

@@ -32,7 +32,7 @@ export const UserHeader = () => {
             <Link to="/user/wishlist" className="block px-4 py-2 hover:bg-gray-200">View Wishlist</Link>
             <Link to="/user/cart" className="block px-4 py-2 hover:bg-gray-200">View Cart</Link>
             <Link to="/user/profile" className="block px-4 py-2 hover:bg-gray-200">View Profile</Link>
-            <Link to="/user/review" className="block px-4 py-2 hover:bg-gray-200">View Review</Link>
+            
           </div>
         )}
       </div>

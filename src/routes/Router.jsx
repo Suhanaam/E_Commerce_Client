@@ -22,7 +22,7 @@ import { AdminLogin } from "../pages/admin/AdminLogin";
 import { SellerProfile } from "../pages/seller/SellerProfile";
 import { SellerProducts } from "../pages/seller/SellerProducts";
 import { ProductCreate } from "../pages/seller/ProductCreate";
-import { ViewReview } from "../pages/seller/ViewReview";
+
 import { UserLayout } from "../layout/UserLayout";
 import { SellerProfileUpdate } from "../pages/seller/SellerProfileUpdate";
 import { AdminCreateSellers } from "../pages/admin/AdminCreateSellers";
@@ -44,8 +44,7 @@ import { PaymentFail } from "../pages/user/PaymentFail";
 import { UserOrder } from "../pages/user/UserOrder";
 
 import { SellerViewOrder } from "../pages/seller/SellerViewOrder";
-import UserReviews from "../pages/user/UserReviews";
-import { AdminViewReviews } from "../pages/admin/AdminViewReviews";
+
 
 export const router = createBrowserRouter([
   {
@@ -85,7 +84,7 @@ export const router = createBrowserRouter([
       { path: "productList2/:id", element: <ProductList2 /> },
       { path: "checkout", element: <UserCheckout /> },
       { path: "order", element: <UserOrder /> },
-      { path:"review", element:<UserReviews />},
+      
 
       {
         path: "payment/success",
@@ -117,7 +116,7 @@ export const router = createBrowserRouter([
           { path: "profile", element: <SellerProfile /> },
           { path: "createProduct", element: <ProductCreate /> },
           { path: "orders", element: <SellerViewOrder /> },
-          { path: "reviews", element: <ViewReview /> },
+         
           { path: "updateprofile", element: <SellerProfileUpdate /> },
         ],
       },
@@ -142,7 +141,7 @@ export const router = createBrowserRouter([
           { path: "changePassword", element: <AdminChangePassword />},
           { path: "register", element: <AdminRegister />},
           { path: "profile", element: <AdminProfile />},
-          { path:"reviews",element:<AdminViewReviews />},
+        
 
         ],
       },

@@ -7,7 +7,7 @@ import { Skeltons } from "../../components/user/Skeltons";
 
 export const ProductList2 = () => {
     const params = useParams();
-    console.log("hiii");
+    //console.log("hiii");
     const [productDetails, isLoading, error] = useFetch(`/products/${params?.id}`);
     const [reviews, setReviews] = useState([]);
     console.log("Fetched product data:", productDetails);

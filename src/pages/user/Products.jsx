@@ -34,6 +34,7 @@ export const Products = () => {
   return (
     <div>
       <h1>Product List</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 place-items-center">
       {Products.length === 0 ? (
         <p>No products found</p>
       ) : (
@@ -41,6 +42,7 @@ export const Products = () => {
           <ProductCard product={value} key={value?._id} />
         ))
       )}
+    </div>
     </div>
   );
 };

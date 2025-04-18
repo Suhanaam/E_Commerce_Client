@@ -15,10 +15,13 @@ export const UserLayout = () => {
   }, [isUserAuth, userData, navigate]);
 
   return (
-    <div>
-      {/* Pass userData to UserHeader if needed */}
+    <div className="min-h-screen flex flex-col">
       <UserHeader user={userData} />
-      <Outlet context={{ user: userData }} />
+
+      <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 bg-white max-w-7xl mx-auto">
+        <Outlet context={{ user: userData }} />
+      </main>
+
       <Footer />
     </div>
   );

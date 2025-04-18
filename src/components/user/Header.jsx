@@ -8,6 +8,9 @@ export const Header = () => {
   const navigate = useNavigate();
 
   return (
+    <div className="shadow-2xl">
+  <div className="container mx-auto flex justify-between items-center px-4 md:px-14 py-4 h-20">
+
     <header className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -60,5 +63,7 @@ export const Header = () => {
         </div>
       )}
     </header>
+</div>
+</div>
   );
 };

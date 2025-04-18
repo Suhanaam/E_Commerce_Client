@@ -5,19 +5,20 @@ import { Skeltons } from "../../components/user/Skeltons";
 
 export const Products = () => {
   const [Products, setProducts] = useState([]);
-  const [isLoading,setIsLoading]=useState(true);
-  const [error,setError]=useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchProducts = async () => {
     try {
-      const response = await axiosInstance({ method :"GET",url:"/products/all"});
+      const response = await axiosInstance({
+        method: "GET",
+        url: "/products/all",
+      });
       console.log("API Response Data:", response?.data);
-      setTimeout(()=>{
-        setProducts(response?.data?.data || []); // Ensure it's an array
+      setTimeout(() => {
+        setProducts(response?.data?.data || []);
         setIsLoading(false);
-
-      },300);
-      
+      }, 300);
     } catch (error) {
       console.log("Error fetching products:", error);
       setError(error);
@@ -27,22 +28,26 @@ export const Products = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-  if(isLoading){
-    return <Skeltons />
+
+  if (isLoading) {
+    return <Skeltons />;
   }
 
   return (
-    <div>
-      <h1>Product List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 place-items-center">
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">
+        Product List
+      </h1>
+
       {Products.length === 0 ? (
-        <p>No products found</p>
+        <p className="text-center text-gray-600">No products found</p>
       ) : (
-        Products.map((value) => (
-          <ProductCard product={value} key={value?._id} />
-        ))
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Products.map((value) => (
+            <ProductCard product={value} key={value?._id} />
+          ))}
+        </div>
       )}
-    </div>
     </div>
   );
 };

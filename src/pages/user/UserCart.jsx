@@ -64,13 +64,17 @@ export const UserCart = () => {
 
     try {
       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
-      const session = await axiosInstance.post("/payment/create-checkout-session", {
-        products: cartData?.items,
-        address,
-      }, { withCredentials: true });
+      const session = await axiosInstance.post(
+        "/payment/create-checkout-session",
+        {
+          products: cartData?.items,
+          address,
+        },
+        { withCredentials: true }
+      );
+
       localStorage.setItem("sessionId", session.data.sessionId);
       localStorage.setItem("deliveryAddress", JSON.stringify(address));
-
 
       await stripe.redirectToCheckout({ sessionId: session.data.sessionId });
     } catch (error) {
@@ -79,46 +83,58 @@ export const UserCart = () => {
   };
 
   if (!cartData || cartData.items.length === 0) {
-    return <p className="p-4 text-gray-500">Your cart is empty.</p>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500 text-lg">
+        Your cart is empty.
+      </div>
+    );
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">My Cart</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="p-4 max-w-7xl mx-auto">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">🛒 My Cart</h2>
+
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {cartData.items.map((item) => (
-          <div key={item._id} className="border p-4 rounded shadow hover:shadow-md">
+          <div
+            key={item._id}
+            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all"
+          >
             <img
               src={item.product.images?.[0] || "https://picsum.photos/200"}
               alt={item.product.name}
-              className="w-full h-40 object-cover rounded mb-2"
+              className="w-full h-48 object-cover"
             />
-            <h3 className="text-lg font-semibold">{item.product.name}</h3>
-            <p>Quantity: {item.quantity}</p>
-            <p>Price per unit: ₹{item.price}</p>
-            <p className="font-bold text-green-700">
-              Subtotal: ₹{item.price * item.quantity}
-            </p>
-            <button
-              onClick={() => handleDelete(item.product._id)}
-              className="mt-2 bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-            >
-              Remove
-            </button>
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-gray-800">
+                {item.product.name}
+              </h3>
+              <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+              <p className="text-sm text-gray-600">Unit Price: ₹{item.price}</p>
+              <p className="text-green-700 font-semibold mt-1">
+                Subtotal: ₹{item.price * item.quantity}
+              </p>
+              <button
+                onClick={() => handleDelete(item.product._id)}
+                className="mt-3 inline-block bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-1 rounded"
+              >
+                Remove
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-8 max-w-xl mx-auto">
-        <h3 className="text-xl font-semibold mb-2">Delivery Address</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mt-10 bg-white shadow rounded-lg p-6 max-w-3xl mx-auto">
+        <h3 className="text-2xl font-bold mb-4 text-gray-800">🚚 Delivery Address</h3>
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
           <input
             type="text"
             name="name"
             placeholder="Full Name"
             value={address.name}
             onChange={handleAddressChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
           <input
@@ -127,7 +143,7 @@ export const UserCart = () => {
             placeholder="Phone Number"
             value={address.phone}
             onChange={handleAddressChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
           <input
@@ -136,7 +152,7 @@ export const UserCart = () => {
             placeholder="Street Address + City"
             value={address.address}
             onChange={handleAddressChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
           <input
@@ -145,16 +161,18 @@ export const UserCart = () => {
             placeholder="Pincode"
             value={address.pincode}
             onChange={handleAddressChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
-        <div className="mt-6 text-xl font-semibold">
-          <p>Total Price: ₹{cartData.totalPrice}</p>
+        <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <p className="text-xl font-semibold text-gray-700">
+            🧾 Total: ₹{cartData.totalPrice}
+          </p>
           <button
             onClick={makePayment}
-            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition"
           >
             Proceed to Checkout
           </button>

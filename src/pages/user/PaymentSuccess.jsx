@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { CheckCircle } from "lucide-react";
 
 export const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -36,8 +37,8 @@ export const PaymentSuccess = () => {
           withCredentials: true,
         });
         await axiosInstance.delete("/cart/clear", { withCredentials: true });
-        setMessage("Order placed successfully!");
 
+        setMessage("🎉 Order placed successfully!");
         localStorage.removeItem("sessionId");
         localStorage.removeItem("deliveryAddress");
 
@@ -52,8 +53,15 @@ export const PaymentSuccess = () => {
   }, [navigate]);
 
   return (
-    <div className="p-6 text-center text-xl text-green-600 font-bold">
-      {message}
+    <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
+      <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
+        <div className="flex justify-center mb-4 text-green-500">
+          <CheckCircle className="w-20 h-20" />
+        </div>
+        <h1 className="text-2xl font-bold mb-4 text-gray-800">Payment Success</h1>
+        <p className="text-gray-700 text-lg">{message}</p>
+        <p className="text-sm text-gray-500 mt-2">You will be redirected shortly...</p>
+      </div>
     </div>
   );
 };

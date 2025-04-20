@@ -4,6 +4,9 @@ import { router } from './routes/Router';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveUser } from './redux/features/userSlice'; // ✅ make sure path is correct
 import { Toaster } from 'react-hot-toast';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -32,6 +35,8 @@ export const App = () => {
     <>
       <RouterProvider router={router} />
       <Toaster />
+      <ToastContainer />
+
     </>
   );
 };

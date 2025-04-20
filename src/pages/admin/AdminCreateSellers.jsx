@@ -46,7 +46,7 @@ export const AdminCreateSellers = () => {
       }
 
       
-      axiosInstance.post("/api/seller/signup", formData, {
+      axiosInstance.post("/seller/signup", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

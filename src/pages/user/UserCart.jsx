@@ -3,7 +3,6 @@ import { axiosInstance } from "../../config/axiosInstance";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import Lottie from "lottie-react";
-import emptyCartAnimation from "../../assets/empty-cart.json"; 
 
 
 export const UserCart = () => {
@@ -88,11 +87,9 @@ export const UserCart = () => {
   if (!cartData || cartData.items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-8">
-        <div className="w-64 h-64">
-          <Lottie animationData={emptyCartAnimation} loop={true} />
-        </div>
+        
         <h2 className="text-xl font-semibold text-gray-600 mt-4">Your cart is empty</h2>
-        <p className="text-gray-500">Looks like you haven't added anything yet.</p>
+        
       </div>
     );
   }

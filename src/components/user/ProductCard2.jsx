@@ -25,7 +25,7 @@ export const ProductCard2 = ({ product }) => {
           <strong>Price:</strong> ${product.price || "N/A"}
         </p>
         <p className="text-sm text-gray-500">
-          <strong>ID:</strong> {product?._id || "N/A"}
+          <strong>Brand:</strong> {product?.brand || "N/A"}
         </p>
         <div className="pt-2 text-right">
           <Link

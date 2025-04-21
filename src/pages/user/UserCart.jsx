@@ -12,6 +12,7 @@ export const UserCart = () => {
     name: "",
     address: "",
     phone: "",
+    
     pincode: "",
   });
 

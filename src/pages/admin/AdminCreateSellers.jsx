@@ -27,13 +27,14 @@ export const AdminCreateSellers = () => {
     setFormData({ ...formData, profilePic: e.target.files[0] });
   };
 
-  // Handle form submit
+  //submit
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
     setError("");
-
+  
     try {
       const data = new FormData();
       data.append("name", formData.name);
@@ -42,34 +43,71 @@ export const AdminCreateSellers = () => {
       data.append("confirmPassword", formData.confirmPassword);
       data.append("mobile", formData.mobile);
       if (formData.profilePic) {
-        data.append("Sellerimage", formData.profilePic);
+        data.append("Sellerimage", formData.profilePic); // matches multer field name in router
       }
-
-      
-      axiosInstance.post("/seller/signup", formData, {
+  
+      const response = await axiosInstance.post("/seller/signup", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         withCredentials: true,
-      })
-        .then((res) => console.log("Seller Registered:", res.data))
-        .catch((err) => console.error("Registration Failed:", err.response));
-      
-
-      // const response = await axiosInstance.post("seller/signup", data, {
-      //   headers: { "Content-Type": "multipart/form-data" },
-      //   withCredentials: true,
-      // });
-
-      // setMessage("Seller created successfully!");
-      setTimeout(() => navigate("/admin/sellers"), 2000); // Redirect after success
+      });
+  
+      console.log("Seller Registered:", response.data);
+      setMessage("Seller created successfully!");
+      setTimeout(() => navigate("/admin/sellers"), 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Error creating seller");
     } finally {
       setLoading(false);
     }
   };
+  
+
+  // Handle form submit
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setMessage("");
+  //   setError("");
+
+  //   try {
+  //     const data = new FormData();
+  //     data.append("name", formData.name);
+  //     data.append("email", formData.email);
+  //     data.append("password", formData.password);
+  //     data.append("confirmPassword", formData.confirmPassword);
+  //     data.append("mobile", formData.mobile);
+  //     if (formData.profilePic) {
+  //       data.append("Sellerimage", formData.profilePic);
+  //     }
+
+      
+  //     axiosInstance.post("/seller/signup", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //       withCredentials: true,
+  //     })
+  //       .then((res) => console.log("Seller Registered:", res.data))
+  //       .catch((err) => console.error("Registration Failed:", err.response));
+      
+
+  //     // const response = await axiosInstance.post("seller/signup", data, {
+  //     //   headers: { "Content-Type": "multipart/form-data" },
+  //     //   withCredentials: true,
+  //     // });
+
+  //     // setMessage("Seller created successfully!");
+  //     setTimeout(() => navigate("/admin/sellers"), 2000); // Redirect after success
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || "Error creating seller");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 mt-5">

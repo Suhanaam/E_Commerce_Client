@@ -33,7 +33,7 @@ export const AdminChangePassword = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        "/api/admin/change-password",
+        "/admin/change-password",
         { currentPassword, newPassword },
         { withCredentials: true }
       );

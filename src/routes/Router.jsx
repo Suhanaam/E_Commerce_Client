@@ -132,7 +132,8 @@ export const router = createBrowserRouter([
       {
         path: "", // ✅ Explicitly define path for `AdminProtectRoutes`
         element: <AdminProtectRoutes />,
-        children: [{ path: "dashboard", element: <AdminDashboard /> },
+        children: [
+          { path: "dashboard", element: <AdminDashboard /> },
           { path: "createSeller", element: <AdminCreateSellers/>},
           { path: "sellers", element: <AdminViewSellers />},
           { path: "users", element: <AdminViewUsers />},
